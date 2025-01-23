@@ -17,8 +17,6 @@ catalog:
   '@iconify/vue': ^4.1.2
   '@manypkg/get-packages': ^2.2.2
   '@stylistic/stylelint-plugin': ^3.1.1
-  '@tailwindcss/nesting': 0.0.0-insiders.565cd3e
-  '@tailwindcss/typography': ^0.5.15
   '@types/eslint': ^9.6.1
   '@types/node': ^22.8.1
   '@types/postcss-import': ^14.0.3

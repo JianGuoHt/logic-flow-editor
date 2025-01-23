@@ -41,8 +41,6 @@
   "dependencies": {
     "@iconify/json": "catalog:",
     "@iconify/tailwind": "catalog:",
-    "@tailwindcss/nesting": "catalog:",
-    "@tailwindcss/typography": "catalog:",
     "autoprefixer": "catalog:",
     "cssnano": "catalog:",
     "postcss": "catalog:",
