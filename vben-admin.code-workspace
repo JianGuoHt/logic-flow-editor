@@ -1,0 +1,48 @@
+{
+  "folders": [
+    {
+      "name": "flow-editor",
+      "path": "apps/flow-editor",
+    },
+    {
+      "name": "@clsy/commitlint-config",
+      "path": "internal/lint-configs/commitlint-config",
+    },
+    {
+      "name": "@clsy/eslint-config",
+      "path": "internal/lint-configs/eslint-config",
+    },
+    {
+      "name": "@clsy/prettier-config",
+      "path": "internal/lint-configs/prettier-config",
+    },
+    {
+      "name": "@clsy/stylelint-config",
+      "path": "internal/lint-configs/stylelint-config",
+    },
+    {
+      "name": "@clsy/node-utils",
+      "path": "internal/node-utils",
+    },
+    {
+      "name": "@clsy/tailwind-config",
+      "path": "internal/tailwind-config",
+    },
+    {
+      "name": "@clsy/tsconfig",
+      "path": "internal/ts-config",
+    },
+    {
+      "name": "@clsy/flow-chart",
+      "path": "packages/flow-chart",
+    },
+    {
+      "name": "@clsy/turbo-run",
+      "path": "scripts/turbo-run",
+    },
+    {
+      "name": "@clsy/vsh",
+      "path": "scripts/vsh",
+    },
+  ],
+}

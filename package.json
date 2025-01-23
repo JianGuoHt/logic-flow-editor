@@ -1,0 +1,55 @@
+{
+  "name": "logic-flow-editor",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "cross-env NODE_OPTIONS=--max-old-space-size=8192 turbo build",
+    "build:analyze": "turbo build:analyze",
+    "changeset": "pnpm exec changeset",
+    "check": "pnpm run check:circular && pnpm run check:dep && pnpm run check:type && pnpm check:cspell",
+    "check:circular": "vsh check-circular",
+    "check:cspell": "cspell lint **/*.ts **/README.md .changeset/*.md --no-progress",
+    "check:dep": "vsh check-dep",
+    "check:type": "turbo run typecheck",
+    "clean": "node ./scripts/clean.mjs",
+    "format": "vsh lint --format",
+    "lint": "vsh lint",
+    "postinstall": "pnpm -r run stub --if-present",
+    "preinstall": "npx only-allow pnpm",
+    "publint": "vsh publint",
+    "reinstall": "pnpm clean --del-lock && pnpm install",
+    "prepare": "is-ci || husky",
+    "version": "pnpm exec changeset version && pnpm install --no-frozen-lockfile"
+  },
+  "dependencies": {
+    "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@clsy/commitlint-config": "workspace:*",
+    "@clsy/eslint-config": "workspace:*",
+    "@clsy/node-utils": "workspace:*",
+    "@clsy/prettier-config": "workspace:*",
+    "@clsy/stylelint-config": "workspace:*",
+    "@clsy/tailwind-config": "workspace:*",
+    "@clsy/tsconfig": "workspace:*",
+    "@clsy/turbo-run": "workspace:*",
+    "@clsy/vsh": "workspace:*",
+    "@types/node": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "@vue/tsconfig": "catalog:",
+    "cross-env": "catalog:",
+    "husky": "catalog:",
+    "lint-staged": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:",
+    "unbuild": "catalog:",
+    "vite": "catalog:",
+    "vue-tsc": "catalog:"
+  },
+  "engines": {
+    "node": ">=20.10.0",
+    "pnpm": ">=9.5.0"
+  },
+  "packageManager": "pnpm@9.12.2"
+}
