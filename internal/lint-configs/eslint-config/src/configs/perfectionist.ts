@@ -19,11 +19,11 @@ export async function perfectionist(): Promise<Linter.Config[]> {
           {
             customGroups: {
               type: {
-                vben: 'vben',
+                clsy: 'clsy',
                 vue: 'vue',
               },
               value: {
-                vben: ['@vben*', '@vben/**/**', '@vben-core/**/**'],
+                clsy: ['@clsy*', '@clsy/**/**'],
                 vue: ['vue', 'vue-*', '@vue*'],
               },
             },
@@ -33,7 +33,7 @@ export async function perfectionist(): Promise<Linter.Config[]> {
               ['internal-type'],
               'builtin',
               'vue',
-              'vben',
+              'clsy',
               'external',
               'internal',
               ['parent', 'sibling', 'index'],

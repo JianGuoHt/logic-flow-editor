@@ -1,6 +1,7 @@
 import type { CAC } from 'cac';
 
 import { getPackages } from '@clsy/node-utils';
+
 import depcheck from 'depcheck';
 
 async function runDepcheck() {
@@ -9,18 +10,18 @@ async function runDepcheck() {
     packages.map(async (pkg) => {
       if (
         [
+          '@clsy/backend-mock',
+          '@clsy/commitlint-config',
+          '@clsy/eslint-config',
+          '@clsy/lint-staged-config',
           '@clsy/node-utils',
-          '@vben/backend-mock',
-          '@vben/commitlint-config',
-          '@vben/eslint-config',
-          '@vben/lint-staged-config',
-          '@vben/prettier-config',
-          '@vben/stylelint-config',
-          '@vben/tailwind-config',
-          '@vben/tsconfig',
-          '@vben/vite-config',
-          '@vben/vite-config',
-          '@vben/vsh',
+          '@clsy/prettier-config',
+          '@clsy/stylelint-config',
+          '@clsy/tailwind-config',
+          '@clsy/tsconfig',
+          '@clsy/vite-config',
+          '@clsy/vite-config',
+          '@clsy/vsh',
         ].includes(pkg.packageJson.name)
       ) {
         return;
@@ -31,11 +32,11 @@ async function runDepcheck() {
           'vite',
           'vitest',
           'unbuild',
-          '@vben/tsconfig',
-          '@vben/vite-config',
-          '@vben/tailwind-config',
+          '@clsy/tsconfig',
+          '@clsy/vite-config',
+          '@clsy/tailwind-config',
           '@types/*',
-          '@vben-core/design',
+          '@clsy-core/design',
         ],
         ignorePatterns: ['dist', 'node_modules', 'public'],
       });

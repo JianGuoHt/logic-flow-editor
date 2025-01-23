@@ -329,19 +329,19 @@ importers:
         version: 3.5.13(typescript@5.6.3)
     devDependencies:
       '@vitejs/plugin-vue':
-        specifier: ^5.2.1
-        version: 5.2.1(vite@6.0.11(@types/node@22.10.7)(jiti@2.4.2)(yaml@2.7.0))(vue@3.5.13(typescript@5.6.3))
+        specifier: 'catalog:'
+        version: 5.2.1(vite@5.4.14(@types/node@22.10.7))(vue@3.5.13(typescript@5.6.3))
       '@vue/tsconfig':
-        specifier: ^0.7.0
+        specifier: 'catalog:'
         version: 0.7.0(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
       typescript:
-        specifier: ~5.6.2
+        specifier: 'catalog:'
         version: 5.6.3
       vite:
-        specifier: ^6.0.5
-        version: 6.0.11(@types/node@22.10.7)(jiti@2.4.2)(yaml@2.7.0)
+        specifier: 'catalog:'
+        version: 5.4.14(@types/node@22.10.7)
       vue-tsc:
-        specifier: ^2.2.0
+        specifier: 'catalog:'
         version: 2.2.0(typescript@5.6.3)
 
   internal/lint-configs/commitlint-config:
@@ -4991,46 +4991,6 @@ packages:
       terser:
         optional: true
 
-  vite@6.0.11:
-    resolution: {integrity: sha512-4VL9mQPKoHy4+FE0NnRE/kbY51TOfaknxAjt3fJbGJxhIpBZiqVzlZDEesWWsuREXHwNdAoOFZ9MkPEVXczHwg==}
-    engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': ^18.0.0 || ^20.0.0 || >=22.0.0
-      jiti: '>=1.21.0'
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      sass-embedded: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.16.0
-      tsx: ^4.8.1
-      yaml: ^2.4.2
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      jiti:
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      sass-embedded:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-      tsx:
-        optional: true
-      yaml:
-        optional: true
-
   vscode-uri@3.0.8:
     resolution: {integrity: sha512-AyFQ0EVmsOZOlAnxoFOGOq1SQDWAB7C6aqMGS23svWAllfOaxbuFvcT8D1i8z3Gyn8fraVeZNNmN6e9bxxXkKw==}
 
@@ -6461,11 +6421,6 @@ snapshots:
       vite: 5.4.14(@types/node@22.10.7)
       vue: 3.5.13(typescript@5.6.3)
 
-  '@vitejs/plugin-vue@5.2.1(vite@6.0.11(@types/node@22.10.7)(jiti@2.4.2)(yaml@2.7.0))(vue@3.5.13(typescript@5.6.3))':
-    dependencies:
-      vite: 6.0.11(@types/node@22.10.7)(jiti@2.4.2)(yaml@2.7.0)
-      vue: 3.5.13(typescript@5.6.3)
-
   '@volar/language-core@2.4.11':
     dependencies:
       '@volar/source-map': 2.4.11
@@ -6775,7 +6730,7 @@ snapshots:
       listr2: 8.2.5
       minimatch: 9.0.5
       node-cleanup: 2.1.2
-      typescript: 5.6.3
+      typescript: 5.7.2
       update-notifier: 7.3.1
       zx: 8.3.0
 
@@ -9559,17 +9514,6 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.10.7
       fsevents: 2.3.3
-
-  vite@6.0.11(@types/node@22.10.7)(jiti@2.4.2)(yaml@2.7.0):
-    dependencies:
-      esbuild: 0.24.2
-      postcss: 8.5.1
-      rollup: 4.31.0
-    optionalDependencies:
-      '@types/node': 22.10.7
-      fsevents: 2.3.3
-      jiti: 2.4.2
-      yaml: 2.7.0
 
   vscode-uri@3.0.8: {}
 
