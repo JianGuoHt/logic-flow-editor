@@ -8,4 +8,8 @@ import { Diagram } from './components';
   </div>
 </template>
 
-<style scoped></style>
+<style>
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+</style>
