@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { init } from '@clsy/flow-chart';
-
-console.log('🚀 ~ flow:', init);
+import { Diagram } from '@clsy/flow-chart';
 </script>
 
 <template>
-  <div>123</div>
+  <div>
+    <Diagram />
+  </div>
 </template>

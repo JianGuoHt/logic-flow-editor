@@ -10,9 +10,9 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/main.ts'),
+      entry: resolve(__dirname, 'src/components/index.ts'),
       // 将添加适当的扩展名后缀
-      fileName: 'main',
+      fileName: 'index',
       name: 'logicFlowChart',
     },
     rollupOptions: {
@@ -28,5 +28,11 @@ export default defineConfig({
       },
     },
   },
-  plugins: [vue(), vitePluginDts({ tsconfigPath: './tsconfig.json' })],
+  plugins: [
+    vue(),
+    vitePluginDts({
+      entryRoot: './src/components',
+      tsconfigPath: './tsconfig.json',
+    }),
+  ],
 });

@@ -33,6 +33,14 @@
       "path": "internal/ts-config",
     },
     {
+      "name": "@clsy/vite-config",
+      "path": "internal/vite-config",
+    },
+    {
+      "name": "@clsy-core/design",
+      "path": "packages/@core/base/design",
+    },
+    {
       "name": "@clsy/flow-chart",
       "path": "packages/flow-chart",
     },
