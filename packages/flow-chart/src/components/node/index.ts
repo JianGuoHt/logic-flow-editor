@@ -1,5 +1,8 @@
 import type LogicFlow from '@logicflow/core';
 
+import Bezier from '../edge/bezier';
+import Line from '../edge/line';
+import Polyline from '../edge/polyline';
 import DownArrowNode from './arrow/down-arrow-node';
 import HorizontalArrowNode from './arrow/horizontal-arrow-node';
 import LeftArrow from './arrow/left-arrow';
@@ -11,9 +14,6 @@ import DiamondNode from './basic/diamond-node';
 import EllipseNode from './basic/ellipse-node';
 import RectNode from './basic/rect-node';
 import RectRadiusNode from './basic/rect-radius-node';
-import Bezier from './edge/bezier';
-import Line from './edge/line';
-import Polyline from './edge/polyline';
 // import ProGroupModel from './group/pro-group';
 import CustomImageNode from './image/custom-image-node';
 import UserImageNode from './image/user-image-node';

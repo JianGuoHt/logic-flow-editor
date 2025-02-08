@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import LogicFlow from '@logicflow/core';
 
+import { getProjectSetting } from '../config/project-setting';
+import DiagramGraphicElementSidebar from '../diagram-graphic-element-sidebar/diagram-graphic-element-sidebar.vue';
+import DiagramToolbar from '../diagram-toolbar/diagram-toolbar.vue';
+import { getActiveEdgeType } from '../edge/help';
 import { registerCustomElement } from '../node';
+import { lfProvideKey } from '../types/lf-token';
 
 import '@logicflow/core/lib/style/index.css';
 
+const projectSetting = getProjectSetting();
+
 const diagramRef = useTemplateRef<HTMLDivElement>('diagramRef');
 
-let lf: LogicFlow;
+const lf = shallowRef<LogicFlow>();
 
 function initLogicFlow() {
-  lf = new LogicFlow({
+  lf.value = new LogicFlow({
     background: {
       backgroundColor: '#f4f4f4',
       backgroundImage:
@@ -25,7 +32,9 @@ function initLogicFlow() {
     overlapMode: 1,
   });
 
-  lf.setTheme({
+  const _lf = unref(lf as unknown as LogicFlow);
+
+  _lf.setTheme({
     baseEdge: { strokeWidth: 1 },
     baseNode: { strokeWidth: 1 },
     snapline: {
@@ -34,15 +43,20 @@ function initLogicFlow() {
     },
   });
 
-  registerCustomElement(lf);
+  // 设置默认边
+  _lf.setDefaultEdgeType(getActiveEdgeType());
 
-  lf.on('history:change', () => {});
+  registerCustomElement(_lf);
 
-  lf.render({});
+  _lf.on('history:change', () => {});
+
+  _lf.render({});
 }
 
 function onDragInNode(type: string) {
-  lf.dnd.startDrag({
+  const _lf = unref(lf);
+
+  _lf!.dnd.startDrag({
     type,
   });
 }
@@ -52,13 +66,31 @@ onMounted(() => {
     initLogicFlow();
   });
 });
+
+provide(lfProvideKey, lf);
 </script>
 
 <template>
   <div class="diagram-main-body h-screen w-screen">
-    <div class="flex h-full">
+    <div
+      :style="{
+        height: `${projectSetting.toolbar.height}px`,
+      }"
+      class="fixed left-0 top-0 w-full bg-white"
+      style="z-index: 9; box-shadow: 0 2px 4px #dad7d7"
+    >
+      <DiagramToolbar />
+    </div>
+
+    <div
+      :style="{
+        height: `calc(100% - ${projectSetting.toolbar.height}px)`,
+        top: `${projectSetting.toolbar.height}px`,
+      }"
+      class="fixed left-0 flex w-full flex-1 overflow-hidden"
+    >
       <div class="h-full" style="width: 240px">
-        <diagram-graphic-element-sidebar @drag-in-node="onDragInNode" />
+        <DiagramGraphicElementSidebar @drag-in-node="onDragInNode" />
       </div>
 
       <div class="h-full flex-1 overflow-hidden">

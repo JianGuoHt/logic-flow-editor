@@ -60,6 +60,8 @@ function dragInNode(type: string) {
 
 <style lang="scss" scoped>
 .diagram-graphic-element-sidebar {
+  @apply select-none;
+
   padding: 0 10px;
 }
 
@@ -78,5 +80,9 @@ function dragInNode(type: string) {
     height: 32px;
     overflow: hidden;
   }
+}
+
+::v-deep(.el-collapse) {
+  border-top: none;
 }
 </style>

@@ -1,13 +1,19 @@
+/**
+ * 直角折线
+ */
+
 import LogicFlow, { PolylineEdge, PolylineEdgeModel } from '@logicflow/core';
 
-import { defaultArrowType, defaultLineWidth } from '../../config/edge';
+import { getEdgeConfig } from '../config/edge';
 import {
   transformShapeStyleMapping,
   transformTextStyleMapping,
-} from '../utils/transform-style';
-import { ArrowType } from './arrow-type';
+} from '../node/utils/transform-style';
+import { EdgeEndShapeStyle, getActiveEdgeEndShapeType } from './help';
 
-// 直角折线
+/**
+ * edge 直角折线 -- Model
+ */
 class ProPolylineEdgeModel extends PolylineEdgeModel {
   override getEdgeStyle() {
     const style = super.getEdgeStyle();
@@ -24,14 +30,18 @@ class ProPolylineEdgeModel extends PolylineEdgeModel {
 
   override initEdgeData(data: LogicFlow.EdgeConfig<LogicFlow.PropertiesType>) {
     super.initEdgeData(data);
+    const { defaultLineWidth } = getEdgeConfig();
     this.setProperties({
-      arrowType: localStorage.getItem('LF_endArrowType') || defaultArrowType,
+      arrowType: getActiveEdgeEndShapeType(),
       borderWidth:
         Number(localStorage.getItem('LF_edgeBorderWidth')) || defaultLineWidth,
     });
   }
 }
 
+/**
+ * edge 直角折线 -- View
+ */
 class ProPolylineEdge extends PolylineEdge {
   override getEndArrow() {
     const { model } = this.props;
@@ -39,12 +49,13 @@ class ProPolylineEdge extends PolylineEdge {
       properties: { arrowType },
     } = model;
     const { stroke, strokeWidth } = model.getArrowStyle();
-    const pathAttr = {
+    const shapeAttr = {
       stroke,
       strokeWidth,
     };
 
-    const cArrowType = new ArrowType(pathAttr, arrowType);
+    const cArrowType = new EdgeEndShapeStyle(arrowType, { shapeAttr });
+
     return cArrowType.getShape();
   }
 }

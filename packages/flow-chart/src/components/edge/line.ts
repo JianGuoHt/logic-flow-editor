@@ -1,11 +1,16 @@
-import LogicFlow, { BezierEdge, BezierEdgeModel } from '@logicflow/core';
+/**
+ * 直线
+ */
 
-import { defaultArrowType } from '../../config/edge';
-import { transformShapeStyleMapping } from '../utils/transform-style';
-import { ArrowType } from './arrow-type';
+import LogicFlow, { LineEdge, LineEdgeModel } from '@logicflow/core';
 
-// 贝塞尔曲线
-class ProBezierEdgeModel extends BezierEdgeModel {
+import { transformShapeStyleMapping } from '../node/utils/transform-style';
+import { EdgeEndShapeStyle, getActiveEdgeEndShapeType } from './help';
+
+/**
+ * edge 直线 -- Model
+ */
+class ProLineEdgeModel extends LineEdgeModel {
   override getEdgeStyle() {
     const style = super.getEdgeStyle();
     const properties = this.getProperties();
@@ -15,30 +20,33 @@ class ProBezierEdgeModel extends BezierEdgeModel {
   override initEdgeData(data: LogicFlow.EdgeConfig<LogicFlow.PropertiesType>) {
     super.initEdgeData(data);
     this.setProperties({
-      arrowType: localStorage.getItem('LF_endArrowType') || defaultArrowType,
+      arrowType: getActiveEdgeEndShapeType(),
     });
   }
 }
 
-class ProBezierEdge extends BezierEdge {
+/**
+ * edge 直线 -- View
+ */
+class ProLineEdge extends LineEdge {
   override getEndArrow() {
     const { model } = this.props;
     const {
       properties: { arrowType },
     } = model;
     const { stroke, strokeWidth } = model.getArrowStyle();
-    const pathAttr = {
+    const shapeAttr = {
       stroke,
       strokeWidth,
     };
 
-    const cArrowType = new ArrowType(pathAttr, arrowType);
+    const cArrowType = new EdgeEndShapeStyle(arrowType, { shapeAttr });
     return cArrowType.getShape();
   }
 }
 
 export default {
-  model: ProBezierEdgeModel,
-  type: 'pro-bezier',
-  view: ProBezierEdge,
+  model: ProLineEdgeModel,
+  type: 'pro-line',
+  view: ProLineEdge,
 };

@@ -1,7 +1,6 @@
 import { h } from '@logicflow/core';
 import { RectResize } from '@logicflow/extension';
 
-import { getShapeImage } from '../utils/shape-image';
 import {
   transformShapeStyleMapping,
   transformTextStyleMapping,
@@ -14,11 +13,13 @@ class RectNodeModel extends RectResize.model {
     return transformShapeStyleMapping(style, properties);
   }
 
-  // 设置调整边框样式
+  /**
+   * 设置调整边框样式
+   */
   override getResizeOutlineStyle() {
     return {
       fill: 'transparent',
-      stroke: '#000000',
+      stroke: 'red',
       strokeDasharray: '3,3',
       strokeWidth: 1,
     };
@@ -52,7 +53,7 @@ class RectNodeView extends RectResize.view {
 
     const doms = [h('rect', { ...attrs })];
 
-    return h('g', {}, getShapeImage(doms, this.props));
+    return h('g', {}, doms);
   }
 }
 

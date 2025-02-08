@@ -1,7 +1,6 @@
 import { h } from '@logicflow/core';
 
 import RectNode from '../basic/rect-node';
-import { getShapeImage } from '../utils/shape-image';
 
 // 下箭头
 
@@ -38,7 +37,8 @@ class DownArrowNodeView extends RectNode.view {
       y,
     };
     const doms = [h('polygon', { ...attrs })];
-    return h('g', {}, getShapeImage(doms, this.props));
+
+    return h('g', {}, doms);
   }
 }
 

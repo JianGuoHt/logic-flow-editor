@@ -14,6 +14,10 @@ export function getLocalAllImageIcons() {
       image: Image,
       name: 'image',
     },
+    {
+      image: 'https://dpubstatic.udache.com/static/dpubimg/-6Fd2uIoJ-/user.png',
+      name: 'pro-image-user',
+    },
   ];
 
   return imageIcons;

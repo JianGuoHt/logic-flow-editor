@@ -114,9 +114,12 @@ catalog:
   vue: ^3.5.13
   vue-eslint-parser: ^9.4.3
   vue-tsc: ^2.2.0
-  'unplugin-auto-import': '^0.18.3'
-  'unplugin-vue-components': '^0.27.4'
-  'unplugin-icons': '^0.19.3'
-  'element-plus': '^2.9.3'
-  '@logicflow/core': '^2.0.10'
-  '@logicflow/extension': '^2.0.14'
+  unplugin-auto-import: ^0.18.3
+  unplugin-vue-components: ^0.27.4
+  unplugin-icons: ^0.19.3
+  element-plus: ^2.9.3
+  '@logicflow/core': ^2.0.10
+  '@logicflow/extension': ^2.0.14
+  '@element-plus/icons-vue': ^2.3.1
+  lodash-es: ^4.17.21
+  '@types/lodash-es': ^4.17.12
