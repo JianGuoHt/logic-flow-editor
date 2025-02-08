@@ -9,5 +9,9 @@ export function useLf() {
   const _lf = inject(lfProvideKey);
   const lf = unref(_lf);
 
+  if (!lf) {
+    throw new Error('logicFlow实例不存在,请确保在logicFlow初始化后使用');
+  }
+
   return lf as LogicFlow;
 }
