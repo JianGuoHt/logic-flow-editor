@@ -3,6 +3,7 @@ import LogicFlow from '@logicflow/core';
 
 import { getProjectSetting } from '../config/project-setting';
 import DiagramGraphicElementSidebar from '../diagram-graphic-element-sidebar/diagram-graphic-element-sidebar.vue';
+import DiagramPropertyPanel from '../diagram-property-panel/diagram-property-panel.vue';
 import DiagramToolbar from '../diagram-toolbar/diagram-toolbar.vue';
 import { getActiveEdgeType } from '../edge/help';
 import { registerCustomElement } from '../node';
@@ -72,15 +73,8 @@ provide(lfProvideKey, lf);
 
 <template>
   <div class="diagram-main-body h-screen w-screen">
-    <div
-      :style="{
-        height: `${projectSetting.toolbar.height}px`,
-      }"
-      class="fixed left-0 top-0 w-full bg-white"
-      style="z-index: 9; box-shadow: 0 2px 4px #dad7d7"
-    >
-      <DiagramToolbar />
-    </div>
+    <DiagramToolbar />
+    <DiagramPropertyPanel v-if="!!lf" />
 
     <div
       :style="{

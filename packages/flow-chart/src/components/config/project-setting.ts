@@ -3,6 +3,10 @@
  */
 export function getProjectSetting() {
   return {
+    propertyPanel: {
+      width: 300,
+    },
+
     toolbar: {
       height: 40,
     },
