@@ -45,6 +45,10 @@
       "path": "packages/flow-chart",
     },
     {
+      "name": "@clsy/utils",
+      "path": "packages/utils",
+    },
+    {
       "name": "@clsy/turbo-run",
       "path": "scripts/turbo-run",
     },

@@ -1,38 +1,63 @@
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { defineConfig } from '@clsy/vite-config';
 
-import vue from '@vitejs/plugin-vue';
-import { defineConfig } from 'vite';
-import vitePluginDts from 'vite-plugin-dts';
+import AutoImport from 'unplugin-auto-import/vite';
+import ElementPlus from 'unplugin-element-plus/vite';
+import IconsResolver from 'unplugin-icons/resolver';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import Components from 'unplugin-vue-components/vite';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-// https://vite.dev/config/
-export default defineConfig({
-  build: {
-    lib: {
-      entry: resolve(__dirname, 'src/components/index.ts'),
-      // 将添加适当的扩展名后缀
-      fileName: 'index',
-      name: 'logicFlowChart',
-    },
-    rollupOptions: {
-      // 确保外部化处理那些
-      // 你不想打包进库的依赖
-      external: ['vue'],
-      output: {
-        // 在 UMD 构建模式下为这些外部化的依赖
-        // 提供一个全局变量
-        globals: {
-          vue: 'Vue',
+export default defineConfig(async () => {
+  return {
+    application: {},
+    vite: {
+      plugins: [
+        ElementPlus({
+          format: 'esm',
+        }),
+        AutoImport({
+          dts: './types/auto-import.d.ts', // 生成在src路径下名为auto-import.d.ts的声明文件
+          eslintrc: {
+            enabled: true, // Default `false`
+            filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
+            globalsPropValue: true, // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+          },
+          imports: ['vue'],
+          resolvers: [
+            ElementPlusResolver({
+              importStyle: 'sass',
+            }),
+          ],
+        }),
+        Components({
+          dts: './types/components.d.ts',
+          // imports 指定组件所在位置，默认为 src/components; 有需要也可以加上 view 目录
+          // dirs: [],
+          include: [/\.vue$/, /\.vue\?vue/, /\.vue\?v=/, /\.[jt]sx$/],
+          resolvers: [
+            ElementPlusResolver({
+              importStyle: 'sass',
+            }),
+
+            // 自动注册图标组件
+            IconsResolver({
+              enabledCollections: ['ep'],
+            }),
+          ],
+
+          version: 3,
+        }),
+      ],
+      server: {
+        proxy: {
+          '/api': {
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/api/, ''),
+            // mock代理目标地址
+            target: 'http://localhost:5320/api',
+            ws: true,
+          },
         },
       },
     },
-  },
-  plugins: [
-    vue(),
-    vitePluginDts({
-      entryRoot: './src/components',
-      tsconfigPath: './tsconfig.json',
-    }),
-  ],
+  };
 });

@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import { Diagram } from './components';
+import { unmountGlobalLoading } from '@clsy/utils';
+
+setTimeout(() => {
+  unmountGlobalLoading();
+}, 500);
 </script>
 
 <template>
   <div class="test-body">
-    <Diagram />
+    <diagram />
   </div>
 </template>
 
