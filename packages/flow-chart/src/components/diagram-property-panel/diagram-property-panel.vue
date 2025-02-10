@@ -1,25 +1,53 @@
 <script setup lang="ts">
 import { getProjectSetting } from '../config/project-setting';
+import { useLf } from '../hooks/useLf';
 import { useLfEvent } from '../hooks/useLfEvent';
 import StylePanel from './components/style-panel/style-panel.vue';
 
 const { propertyPanel, toolbar } = getProjectSetting();
 
+const lf = useLf();
+
 const isActive = ref(false);
 const activePane = ref('style');
 
-useLfEvent('node:click', onLfNodeActive);
+useLfEvent('node:click', () => onLfNodeActive('node:click'));
+useLfEvent('selection:selected', () => onLfNodeActive('selection:selected'));
 useLfEvent('blank:click	', onLfNodeInactive);
 
 /**
- * 点击节点
+ * 节点激活
  */
-function onLfNodeActive() {
-  isActive.value = true;
+function onLfNodeActive(type: 'node:click' | 'selection:selected') {
+  switch (type) {
+    /**
+     * 点击节点
+     */
+    case 'node:click': {
+      isActive.value = true;
+      break;
+    }
+
+    /**
+     * 框选
+     */
+    case 'selection:selected': {
+      const { edges, nodes } = lf.getSelectElements();
+
+      if (nodes.length > 0 || edges.length > 0) {
+        isActive.value = true;
+      }
+      break;
+    }
+
+    default: {
+      isActive.value = true;
+    }
+  }
 }
 
 /**
- * 点击空白
+ * 节点不激活
  */
 function onLfNodeInactive() {
   isActive.value = false;

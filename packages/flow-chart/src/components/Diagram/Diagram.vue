@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import LogicFlow from '@logicflow/core';
+import { SelectionSelect } from '@logicflow/extension';
 
 import { getProjectSetting } from '../config/project-setting';
 import DiagramGraphicElementSidebar from '../diagram-graphic-element-sidebar/diagram-graphic-element-sidebar.vue';
@@ -9,7 +10,8 @@ import { getActiveEdgeType } from '../edge/help';
 import { registerCustomElement } from '../node';
 import { lfProvideKey } from '../types/lf-token';
 
-import '@logicflow/core/lib/style/index.css';
+import '@logicflow/core/dist/index.css';
+import '@logicflow/extension/es/index.css';
 
 const projectSetting = getProjectSetting();
 
@@ -31,6 +33,7 @@ function initLogicFlow() {
       visible: false,
     },
     overlapMode: 1,
+    plugins: [SelectionSelect],
   });
 
   const _lf = unref(lf as unknown as LogicFlow);
@@ -49,7 +52,7 @@ function initLogicFlow() {
 
   registerCustomElement(_lf);
 
-  _lf.on('history:change', () => {});
+  _lf.on('history:change1', () => {});
 
   _lf.render({});
 }
@@ -73,7 +76,7 @@ provide(lfProvideKey, lf);
 
 <template>
   <div class="diagram-main-body h-screen w-screen">
-    <DiagramToolbar />
+    <DiagramToolbar v-if="!!lf" />
     <DiagramPropertyPanel v-if="!!lf" />
 
     <div

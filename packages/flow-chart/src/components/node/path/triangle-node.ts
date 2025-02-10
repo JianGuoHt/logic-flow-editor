@@ -1,6 +1,8 @@
 import { h } from '@logicflow/core';
 import { RectResize } from '@logicflow/extension';
 
+import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
+
 import { getShapeImage } from '../utils/shape-image';
 import {
   transformShapeStyleMapping,
@@ -28,6 +30,14 @@ class TriangleNodeModel extends RectResize.model {
     const style = super.getTextStyle();
     const properties = this.getProperties();
     return transformTextStyleMapping(style, properties);
+  }
+
+  override initNodeData(data: any): void {
+    super.initNodeData(data);
+
+    this.setProperties({
+      ...getNodeCustomDefaultProperties(),
+    });
   }
 }
 

@@ -2,6 +2,7 @@
 import { getProjectSetting } from '../config/project-setting';
 import EdgeEndShapeType from './components/edge-end-shape-type.vue';
 import EdgeType from './components/edge-type.vue';
+import SelectionSelectTool from './components/selection-select-tool.vue';
 
 const projectSetting = getProjectSetting();
 </script>
@@ -11,7 +12,7 @@ const projectSetting = getProjectSetting();
     :style="{
       height: `${projectSetting.toolbar.height}px`,
     }"
-    class="diagram-toolbar fixed left-0 top-0 flex h-full w-full items-center justify-center gap-3 bg-white"
+    class="diagram-toolbar fixed left-0 top-0 flex h-full w-full items-center justify-center gap-4 bg-white"
     style="
       z-index: 10;
       font-size: 14px;
@@ -19,6 +20,7 @@ const projectSetting = getProjectSetting();
       box-shadow: 0 2px 4px #dad7d7;
     "
   >
+    <SelectionSelectTool />
     <EdgeType />
     <EdgeEndShapeType />
   </div>
@@ -33,6 +35,11 @@ const projectSetting = getProjectSetting();
       align-items: center;
       justify-content: center;
       text-align: center;
+      cursor: pointer;
+
+      &.is-active {
+        color: #409eff;
+      }
     }
 
     .el-icon {

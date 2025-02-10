@@ -1,6 +1,8 @@
 import { h } from '@logicflow/core';
 import { RectResize } from '@logicflow/extension';
 
+import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
+
 import { getShapeImage } from '../utils/shape-image';
 import {
   transformShapeStyleMapping,
@@ -35,6 +37,10 @@ class CylinderNodeModel extends RectResize.model {
     super.initNodeData(data);
     this.width = 60;
     this.height = 80;
+
+    this.setProperties({
+      ...getNodeCustomDefaultProperties(),
+    });
   }
 }
 

@@ -6,7 +6,7 @@ import { useLfEvent } from './useLfEvent';
 /**
  * 获取当前选中的节点
  */
-export function useLfActiveNodes() {
+export function useLfActiveNodes(fn?: (nodes: LogicFlow.NodeData[]) => void) {
   const lf = useLf();
 
   const activeNodes = ref<LogicFlow.NodeData[]>([]);
@@ -14,10 +14,15 @@ export function useLfActiveNodes() {
   useLfEvent('node:click', () => {
     const { nodes } = lf.getSelectElements();
 
-    nodes.forEach((node) => {
-      node.zIndex;
-    });
     activeNodes.value = nodes;
+    fn && fn(nodes);
+  });
+
+  useLfEvent('selection:selected', () => {
+    const { nodes } = lf.getSelectElements();
+
+    activeNodes.value = nodes;
+    fn && fn(nodes);
   });
 
   return activeNodes;

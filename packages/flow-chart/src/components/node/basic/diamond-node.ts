@@ -1,6 +1,8 @@
 import { h } from '@logicflow/core';
 import { DiamondResize } from '@logicflow/extension';
 
+import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
+
 import { getShapeImage } from '../utils/shape-image';
 import {
   transformShapeStyleMapping,
@@ -26,6 +28,10 @@ class DiamondNodeModel extends DiamondResize.model {
     super.initNodeData(data);
     this.rx = 35;
     this.ry = 35;
+
+    this.setProperties({
+      ...getNodeCustomDefaultProperties(),
+    });
   }
 }
 
