@@ -8,6 +8,7 @@ import { getProjectSetting } from '../config/project-setting';
 import DiagramGraphicElementSidebar from '../diagram-graphic-element-sidebar/diagram-graphic-element-sidebar.vue';
 import DiagramPropertyPanel from '../diagram-property-panel/diagram-property-panel.vue';
 import DiagramToolbar from '../diagram-toolbar/diagram-toolbar.vue';
+import { registerCustomEdge } from '../edge';
 import { getActiveEdgeType } from '../edge/help';
 import { mittEmitter } from '../events/mitt';
 import { registerCustomElement } from '../node';
@@ -64,6 +65,7 @@ function initLogicFlow() {
   _lf.setDefaultEdgeType(getActiveEdgeType());
 
   registerCustomElement(_lf);
+  registerCustomEdge(_lf);
 
   _lf.on('history:change1', () => {});
 
