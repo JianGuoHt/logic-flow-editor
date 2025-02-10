@@ -1,21 +1,25 @@
-import { h } from '@logicflow/core';
-import { EllipseResize } from '@logicflow/extension';
+import { RectNode, RectNodeModel } from '@logicflow/core';
 
 import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
 
-import { getShapeImage } from '../utils/shape-image';
 import {
   transformShapeStyleMapping,
   transformTextStyleMapping,
 } from '../utils/transform-style';
 
-class CircleNodeModel extends EllipseResize.model {
+class CusRectModel extends RectNodeModel {
+  /**
+   * 支持重写 获取当前节点样式
+   */
   override getNodeStyle() {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
     return transformShapeStyleMapping(style, properties);
   }
 
+  /**
+   * 支持重写 获取当前节点文本样式
+   */
   override getTextStyle() {
     const style = super.getTextStyle();
     const properties = this.getProperties();
@@ -23,41 +27,23 @@ class CircleNodeModel extends EllipseResize.model {
     return transformTextStyleMapping(style, properties);
   }
 
+  /**
+   * 初始化节点数据
+   */
   override initNodeData(data: any) {
     super.initNodeData(data);
-    this.rx = 35;
-    this.ry = 35;
-
+    this.width = 50;
+    this.height = 50;
     this.setProperties({
       ...getNodeCustomDefaultProperties(),
     });
   }
 }
 
-class CircleNodeView extends EllipseResize.view {
-  override getResizeShape() {
-    const { model } = this.props;
-    const { rx, ry, x, y } = model;
-    const style = model.getNodeStyle();
-
-    const attrs = {
-      cx: x,
-      cy: y,
-      rx,
-      ry,
-      x,
-      y,
-      ...style,
-    };
-
-    const doms = [h('ellipse', { ...attrs })];
-
-    return h('g', {}, getShapeImage(doms, this.props));
-  }
-}
+class CusRectView extends RectNode {}
 
 export default {
-  model: CircleNodeModel,
-  type: 'pro-circle',
-  view: CircleNodeView,
+  model: CusRectModel,
+  type: 'cus-rect',
+  view: CusRectView,
 };

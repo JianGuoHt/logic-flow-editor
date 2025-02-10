@@ -1,10 +1,12 @@
+/**
+ * 下箭头
+ */
+
 import { h } from '@logicflow/core';
 
-import RectNode from '../basic/rect-node';
+import { CusRect } from '../../basic';
 
-// 下箭头
-
-class DownArrowNodeModel extends RectNode.model {
+class DownArrowNodeModel extends CusRect.model {
   override initNodeData(data: any) {
     super.initNodeData(data);
     this.width = 50;
@@ -12,8 +14,8 @@ class DownArrowNodeModel extends RectNode.model {
   }
 }
 
-class DownArrowNodeView extends RectNode.view {
-  override getResizeShape() {
+class DownArrowNodeView extends CusRect.view {
+  override getShape() {
     const { height, width, x, y } = this.props.model;
     const style = this.props.model.getNodeStyle();
     const ArrowWidth = (1 / 3) * width;

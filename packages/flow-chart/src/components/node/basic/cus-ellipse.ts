@@ -1,22 +1,25 @@
-import { h } from '@logicflow/core';
-import { DiamondResize } from '@logicflow/extension';
+import { EllipseNode, EllipseNodeModel } from '@logicflow/core';
 
 import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
 
-import { getShapeImage } from '../utils/shape-image';
 import {
   transformShapeStyleMapping,
   transformTextStyleMapping,
 } from '../utils/transform-style';
 
-// 菱形
-class DiamondNodeModel extends DiamondResize.model {
+class CusEllipseModel extends EllipseNodeModel {
+  /**
+   * 支持重写 获取当前节点样式
+   */
   override getNodeStyle() {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
     return transformShapeStyleMapping(style, properties);
   }
 
+  /**
+   * 支持重写 获取当前节点文本样式
+   */
   override getTextStyle() {
     const style = super.getTextStyle();
     const properties = this.getProperties();
@@ -24,6 +27,9 @@ class DiamondNodeModel extends DiamondResize.model {
     return transformTextStyleMapping(style, properties);
   }
 
+  /**
+   * 初始化节点数据
+   */
   override initNodeData(data: any) {
     super.initNodeData(data);
     this.rx = 35;
@@ -35,26 +41,10 @@ class DiamondNodeModel extends DiamondResize.model {
   }
 }
 
-class DiamondNodeView extends DiamondResize.view {
-  override getResizeShape() {
-    const { model } = this.props;
-    const { points, x, y } = model;
-    const style = model.getNodeStyle();
-
-    const attrs = {
-      points,
-      x,
-      y,
-      ...style,
-    };
-    const doms = [h('polygon', { ...attrs })];
-
-    return h('g', {}, getShapeImage(doms, this.props));
-  }
-}
+class CusEllipseView extends EllipseNode {}
 
 export default {
-  model: DiamondNodeModel,
-  type: 'pro-diamond',
-  view: DiamondNodeView,
+  model: CusEllipseModel,
+  type: 'cus-ellipse',
+  view: CusEllipseView,
 };

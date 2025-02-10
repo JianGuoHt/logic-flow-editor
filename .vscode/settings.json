@@ -225,6 +225,7 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "[ignore]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
-  }
+  },
+  "cSpell.words": ["logicflow"]
   // "oxc.enable": false
 }

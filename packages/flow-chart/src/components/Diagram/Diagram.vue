@@ -21,6 +21,8 @@ const lf = shallowRef<LogicFlow>();
 
 function initLogicFlow() {
   lf.value = new LogicFlow({
+    allowResize: true,
+    allowRotate: true,
     background: {
       backgroundColor: '#f4f4f4',
       backgroundImage:
@@ -41,6 +43,12 @@ function initLogicFlow() {
   _lf.setTheme({
     baseEdge: { strokeWidth: 1 },
     baseNode: { strokeWidth: 1 },
+    resizeOutline: {
+      fill: 'transparent',
+      stroke: '#1890ff',
+      strokeDasharray: '3,3',
+      strokeWidth: 1,
+    },
     snapline: {
       stroke: '#1890ff', // 对齐线颜色
       strokeWidth: 1, // 对齐线宽度

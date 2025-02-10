@@ -1,36 +1,44 @@
+/**
+ * 竖直双向箭头
+ */
 import { h } from '@logicflow/core';
 
-import RectNode from '../basic/rect-node';
-import { getShapeImage } from '../utils/shape-image';
+import { CusRect } from '../../basic';
+import { getShapeImage } from '../../utils/shape-image';
 
-// 上箭头
-class UpArrowNodeModel extends RectNode.model {
+class VerticalArrowNodeModel extends CusRect.model {
   override initNodeData(data: any) {
     super.initNodeData(data);
-    this.width = 50;
+    this.width = 40;
     this.height = 80;
   }
 }
 
-class UpArrowNodeView extends RectNode.view {
-  override getResizeShape() {
+class VerticalArrowNodeView extends CusRect.view {
+  override getShape() {
     const { height, width, x, y } = this.props.model;
     const style = this.props.model.getNodeStyle();
     const ArrowWidth = (1 / 3) * width;
     const upY = y - (1 / 2) * height;
     const upY2 = y - (1 / 5) * height;
     const downY = y + (1 / 2) * height;
+    const downY2 = y + (1 / 5) * height;
     const attrs = {
       ...style,
       height,
       points: [
+        // 上箭头
         [x - (1 / 2) * ArrowWidth, upY2],
         [x - (1 / 2) * width, upY2],
         [x, upY],
         [x + (1 / 2) * width, upY2],
         [x + (1 / 2) * ArrowWidth, upY2],
-        [x + (1 / 2) * ArrowWidth, downY],
-        [x - (1 / 2) * ArrowWidth, downY],
+        // 下箭头
+        [x + (1 / 2) * ArrowWidth, downY2],
+        [x + (1 / 2) * width, downY2],
+        [x, downY],
+        [x - (1 / 2) * width, downY2],
+        [x - (1 / 2) * ArrowWidth, downY2],
       ],
       width,
       x,
@@ -42,7 +50,7 @@ class UpArrowNodeView extends RectNode.view {
 }
 
 export default {
-  model: UpArrowNodeModel,
-  type: 'pro-up-arrow',
-  view: UpArrowNodeView,
+  model: VerticalArrowNodeModel,
+  type: 'pro-vertical-arrow',
+  view: VerticalArrowNodeView,
 };

@@ -1,4 +1,7 @@
-import { h } from '@logicflow/core';
+/**
+ * 自定义可缩放矩形
+ */
+
 import { RectResize } from '@logicflow/extension';
 
 import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
@@ -8,7 +11,14 @@ import {
   transformTextStyleMapping,
 } from '../utils/transform-style';
 
-class RectNodeModel extends RectResize.model {
+class CusRectResizeModel extends RectResize.model {
+  // constructor(data: any, graphModel: any) {
+  //   super(data, graphModel);
+  // }
+
+  /**
+   * 节点样式处理
+   */
   override getNodeStyle() {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
@@ -18,15 +28,20 @@ class RectNodeModel extends RectResize.model {
   /**
    * 设置调整边框样式
    */
-  override getResizeOutlineStyle() {
-    return {
-      fill: 'transparent',
-      stroke: 'red',
-      strokeDasharray: '3,3',
-      strokeWidth: 1,
-    };
-  }
+  // override getResizeOutlineStyle() {
+  //   return this.graphModel.theme.resizeOutline;
 
+  //   // return {
+  //   //   fill: 'transparent',
+  //   //   stroke: '#1890ff',
+  //   //   strokeDasharray: '3,3',
+  //   //   strokeWidth: 1,
+  //   // };
+  // }
+
+  /**
+   * 文本样式
+   */
   override getTextStyle() {
     const style = super.getTextStyle();
     const properties = this.getProperties();
@@ -34,40 +49,23 @@ class RectNodeModel extends RectResize.model {
     return transformTextStyleMapping(style, properties);
   }
 
+  /**
+   * 初始化节点数据
+   */
   override initNodeData(data: any) {
     super.initNodeData(data);
+    this.width = 50;
+    this.height = 50;
     this.setProperties({
       ...getNodeCustomDefaultProperties(),
     });
   }
 }
 
-class RectNodeView extends RectResize.view {
-  override getResizeShape() {
-    const { model } = this.props;
-    const { height, radius, width, x, y } = model;
-    const style = model.getNodeStyle();
-    const leftTopX = x - width / 2;
-    const leftTopY = y - height / 2;
-
-    const attrs = {
-      height,
-      rx: radius,
-      ry: radius,
-      width,
-      x: leftTopX,
-      y: leftTopY,
-      ...style,
-    };
-
-    const doms = [h('rect', { ...attrs })];
-
-    return h('g', {}, doms);
-  }
-}
+class CusRectResizeView extends RectResize.view {}
 
 export default {
-  model: RectNodeModel,
-  type: 'pro-rect',
-  view: RectNodeView,
+  model: CusRectResizeModel,
+  type: 'cus-rect-resize',
+  view: CusRectResizeView,
 };

@@ -1,6 +1,6 @@
-import ImageNode from './image-node';
+import { CusImage } from '../../basic';
 
-class UserImageNodeModel extends ImageNode.model {
+class UserImageNodeModel extends CusImage.model {
   override initNodeData(data: any) {
     super.initNodeData(data);
 
@@ -12,7 +12,7 @@ class UserImageNodeModel extends ImageNode.model {
 }
 
 // 图片-用户节点
-class UserImageNode extends ImageNode.view {}
+class UserImageNode extends CusImage.view {}
 
 export default {
   model: UserImageNodeModel,

@@ -1,51 +1,21 @@
+/**
+ * 人物
+ */
 import { h } from '@logicflow/core';
-import { RectResize } from '@logicflow/extension';
 
-import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
+import { CusRect } from '../../basic';
+import { getShapeImage } from '../../utils/shape-image';
 
-import { getShapeImage } from '../utils/shape-image';
-import {
-  transformShapeStyleMapping,
-  transformTextStyleMapping,
-} from '../utils/transform-style';
-// 人物
-class ActorNodeModel extends RectResize.model {
-  override getNodeStyle() {
-    const style = super.getNodeStyle();
-    const properties = this.getProperties();
-    return transformShapeStyleMapping(style, properties);
-  }
-
-  // 设置调整边框样式
-  override getResizeOutlineStyle() {
-    return {
-      fill: 'transparent',
-      stroke: '#000000',
-      strokeDasharray: '3,3',
-      strokeWidth: 1,
-    };
-  }
-
-  override getTextStyle() {
-    const style = super.getTextStyle();
-    const properties = this.getProperties();
-
-    return transformTextStyleMapping(style, properties);
-  }
-
+class ActorNodeModel extends CusRect.model {
   override initNodeData(data: any) {
     super.initNodeData(data);
     this.width = 40;
     this.height = 80;
-
-    this.setProperties({
-      ...getNodeCustomDefaultProperties(),
-    });
   }
 }
 
-class ActorNodeView extends RectResize.view {
-  override getResizeShape() {
+class ActorNodeView extends CusRect.view {
+  override getShape() {
     const { height, width, x, y } = this.props.model;
     const style = this.props.model.getNodeStyle();
     // 人物头部圆形

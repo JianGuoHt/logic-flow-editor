@@ -1,14 +1,17 @@
-import { h } from '@logicflow/core';
+/**
+ * 自定义可缩放菱形
+ */
 
-import RectNode from '../basic/rect-node';
-import { getShapeImage } from '../utils/shape-image';
+import { DiamondResize } from '@logicflow/extension';
+
+import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
+
 import {
   transformShapeStyleMapping,
   transformTextStyleMapping,
 } from '../utils/transform-style';
 
-// 图片-基础节点
-class ImageModel extends RectNode.model {
+class CusDiamondResizeModel extends DiamondResize.model {
   override getNodeStyle() {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
@@ -24,19 +27,19 @@ class ImageModel extends RectNode.model {
 
   override initNodeData(data: any) {
     super.initNodeData(data);
-    this.width = 80;
-    this.height = 60;
+    this.rx = 35;
+    this.ry = 35;
+
+    this.setProperties({
+      ...getNodeCustomDefaultProperties(),
+    });
   }
 }
 
-class ImageNode extends RectNode.view {
-  override getResizeShape() {
-    return h('g', {}, getShapeImage([], this.props));
-  }
-}
+class CusDiamondResizeView extends DiamondResize.view {}
 
 export default {
-  model: ImageModel,
-  type: 'pro-image-node',
-  view: ImageNode,
+  model: CusDiamondResizeModel,
+  type: 'cus-diamond-resize',
+  view: CusDiamondResizeView,
 };
