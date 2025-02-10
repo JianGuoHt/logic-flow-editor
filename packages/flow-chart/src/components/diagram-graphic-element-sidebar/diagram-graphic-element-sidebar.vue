@@ -1,23 +1,29 @@
 <script setup lang="ts">
-import { getLocalAllImageIcons, vueIconMaps } from '../icon';
+import { lfProvideKey } from '../types/lf-token';
 
 const emits = defineEmits(['dragInNode']);
 
-const vueIconNodes = ref(
-  vueIconMaps.map((v) => ({
-    component: shallowRef(v.component),
-    type: v.name,
-  })),
-);
+const injectedRootStore = inject(lfProvideKey);
 
-const imageIconNodes = ref(
-  getLocalAllImageIcons().map((v) => ({
-    image: v.image,
-    type: v.name,
-  })),
-);
+const activeCollapseNames = ref<string[]>([]);
 
-const activeCollapseNames = ref(['general']);
+const registerCustomNodes = computed(() => {
+  return injectedRootStore?.registerCusNodes.value || [];
+});
+
+watch(
+  () => registerCustomNodes.value,
+  (n) => {
+    if (n.length > 0 && activeCollapseNames.value.length === 0) {
+      activeCollapseNames.value = n.map((v) => v.type);
+    }
+  },
+  {
+    deep: true,
+    immediate: true,
+    // once: true,
+  },
+);
 
 function dragInNode(type: string) {
   emits('dragInNode', type);
@@ -28,31 +34,20 @@ function dragInNode(type: string) {
   <div class="diagram-graphic-element-sidebar">
     <el-scrollbar style="height: 100%">
       <el-collapse v-model="activeCollapseNames">
-        <el-collapse-item name="general" title="General">
-          <div class="node-category-list">
-            <div
-              v-for="node in vueIconNodes"
-              :key="node.type"
-              class="node-item"
-              @mousedown="dragInNode(node.type)"
-            >
-              <component :is="node.component" class="svg-node" />
+        <template v-for="group in registerCustomNodes" :key="group.type">
+          <el-collapse-item :name="group.type" :title="group.name">
+            <div class="node-category-list">
+              <div
+                v-for="node in group.nodes"
+                :key="node.type"
+                class="node-item"
+                @mousedown="dragInNode(node.type)"
+              >
+                <component :is="node.icon" class="svg-node" />
+              </div>
             </div>
-          </div>
-        </el-collapse-item>
-
-        <el-collapse-item name="image" title="图片">
-          <div class="node-category-list">
-            <div
-              v-for="node in imageIconNodes"
-              :key="node.type"
-              class="node-item"
-              @mousedown="dragInNode(node.type)"
-            >
-              <img :src="node.image" class="image-node" />
-            </div>
-          </div>
-        </el-collapse-item>
+          </el-collapse-item>
+        </template>
       </el-collapse>
     </el-scrollbar>
   </div>

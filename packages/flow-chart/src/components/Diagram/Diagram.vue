@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { RegisterCusNodeGroupOptions } from '../types/register-node';
+
 import LogicFlow from '@logicflow/core';
 import { SelectionSelect } from '@logicflow/extension';
 
@@ -7,6 +9,7 @@ import DiagramGraphicElementSidebar from '../diagram-graphic-element-sidebar/dia
 import DiagramPropertyPanel from '../diagram-property-panel/diagram-property-panel.vue';
 import DiagramToolbar from '../diagram-toolbar/diagram-toolbar.vue';
 import { getActiveEdgeType } from '../edge/help';
+import { mittEmitter } from '../events/mitt';
 import { registerCustomElement } from '../node';
 import { lfProvideKey } from '../types/lf-token';
 
@@ -18,6 +21,8 @@ const projectSetting = getProjectSetting();
 const diagramRef = useTemplateRef<HTMLDivElement>('diagramRef');
 
 const lf = shallowRef<LogicFlow>();
+
+const registerCustomNodes = ref<RegisterCusNodeGroupOptions[]>([]);
 
 function initLogicFlow() {
   lf.value = new LogicFlow({
@@ -65,6 +70,25 @@ function initLogicFlow() {
   _lf.render({});
 }
 
+function initOnMittRegister() {
+  mittEmitter.on('register', (v) => {
+    let data: RegisterCusNodeGroupOptions[] = [];
+
+    if (Array.isArray(v)) {
+      data.push(...v);
+    } else {
+      data.push(v);
+    }
+
+    data = data.map((v) => ({
+      ...v,
+      nodes: v.nodes.map((n) => ({ ...n, icon: shallowRef(n.icon) })),
+    }));
+
+    registerCustomNodes.value.push(...data);
+  });
+}
+
 function onDragInNode(type: string) {
   const _lf = unref(lf);
 
@@ -75,11 +99,15 @@ function onDragInNode(type: string) {
 
 onMounted(() => {
   nextTick(() => {
+    initOnMittRegister();
     initLogicFlow();
   });
 });
 
-provide(lfProvideKey, lf);
+provide(lfProvideKey, {
+  lf,
+  registerCusNodes: registerCustomNodes,
+});
 </script>
 
 <template>

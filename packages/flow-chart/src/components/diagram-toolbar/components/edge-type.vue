@@ -4,9 +4,9 @@ import {} from '@element-plus/icons-vue';
 import { getEdgeConfig } from '#/components/config/edge';
 import { getActiveEdgeType } from '#/components/edge/help';
 import { EdgeTypeEnum } from '#/components/edge/types';
-import { lfProvideKey } from '#/components/types/lf-token';
+import { useLf } from '#/components/hooks/useLf';
 
-const lf = inject(lfProvideKey);
+const lf = useLf();
 
 const edgeTypes = ref(
   getEdgeConfig().lineTypes.map((v) => {
