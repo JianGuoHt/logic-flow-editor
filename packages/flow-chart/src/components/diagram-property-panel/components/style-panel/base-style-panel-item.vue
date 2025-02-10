@@ -1,19 +1,25 @@
 <script setup lang="ts">
 import type LogicFlow from '@logicflow/core';
 
-import type { CustomNodeProperty } from '#/components/types/custom-properties';
+import type {
+  CustomNodeAllStyleProperty,
+  CustomNodeCommonStyleProperty,
+} from '#/components/types/custom-properties';
 
 import { isNil } from 'lodash-es';
 
 import { useLf } from '#/components/hooks/useLf';
 import { useLfActiveNodes } from '#/components/hooks/useLfActiveNode';
 
-import { getNodeCustomDefaultProperties } from '../../../help/reset-custom-properties';
+import {
+  getNodeCustomDefaultProperties,
+  getNodeDefaultProperties,
+} from '../../../help/reset-custom-properties';
 
 const lf = useLf();
 const activeNode = useLfActiveNodes(onLfNodeActive);
 
-const form = ref<CustomNodeProperty>(getNodeCustomDefaultProperties());
+const form = ref<CustomNodeAllStyleProperty>(getNodeDefaultProperties());
 
 /**
  * 节点激活 回调
@@ -44,7 +50,7 @@ function onLfNodeActive(nodes: LogicFlow.NodeData[]) {
 
     Object.keys(form.value).forEach((key) => {
       const value = isNil(nodeProperties[key])
-        ? defaultForm[key as keyof CustomNodeProperty] || null
+        ? defaultForm[key as keyof CustomNodeCommonStyleProperty] || null
         : nodeProperties[key];
 
       Reflect.set(form.value, key, value);
@@ -53,13 +59,17 @@ function onLfNodeActive(nodes: LogicFlow.NodeData[]) {
 }
 
 /**
- * 更换背景色
- * @param color
+ * 设置激活节点属性
+ * @param key
+ * @param value
  */
-function handleBackgroundColorChange(color: null | string) {
+function setNodeProperties<K extends keyof CustomNodeAllStyleProperty>(
+  key: K,
+  value: CustomNodeAllStyleProperty[K],
+) {
   activeNode.value.forEach((node) => {
     lf.setProperties(node.id, {
-      backgroundColor: color,
+      [key]: value,
     });
   });
 }
@@ -68,11 +78,27 @@ function handleBackgroundColorChange(color: null | string) {
 <template>
   <div class="base-style-panel-item">
     <ElForm :model="form" label-position="left" label-width="90px">
+      <ElFormItem label="宽度">
+        <ElInputNumber
+          v-model="form.width"
+          :min="2"
+          :step="1"
+          @change="(v) => setNodeProperties('width', v)"
+        />
+      </ElFormItem>
+      <ElFormItem label="高度">
+        <ElInputNumber
+          v-model="form.height"
+          :min="2"
+          :step="1"
+          @change="(v) => setNodeProperties('height', v)"
+        />
+      </ElFormItem>
       <ElFormItem label="背景色">
         <ElColorPicker
           v-model="form.backgroundColor"
           show-alpha
-          @change="handleBackgroundColorChange"
+          @change="(v) => setNodeProperties('backgroundColor', v!)"
         />
       </ElFormItem>
     </ElForm>

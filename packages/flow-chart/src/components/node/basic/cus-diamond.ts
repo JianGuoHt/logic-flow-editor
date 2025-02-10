@@ -1,9 +1,10 @@
 import { DiamondNode, DiamondNodeModel } from '@logicflow/core';
+import { merge } from 'lodash-es';
 
 import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
 
 import {
-  transformShapeStyleMapping,
+  formatShapeStyleMapping,
   transformTextStyleMapping,
 } from '../utils/transform-style';
 
@@ -14,7 +15,7 @@ class CusDiamondModel extends DiamondNodeModel {
   override getNodeStyle() {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
-    return transformShapeStyleMapping(style, properties);
+    return merge(style, formatShapeStyleMapping(properties));
   }
 
   /**

@@ -1,5 +1,11 @@
+import type { CustomNodeAllStyleProperty } from '#/components/types/custom-properties';
+
 // 形状样式处理
-export function transformShapeStyleMapping(style: any, properties: any) {
+export function formatShapeStyleMapping(
+  properties: CustomNodeAllStyleProperty,
+) {
+  const style: Record<string, any> = {};
+
   // 背景色
   if (properties.backgroundColor) {
     style.fill = properties.backgroundColor;
@@ -32,6 +38,14 @@ export function transformShapeStyleMapping(style: any, properties: any) {
     if (properties.borderStyle === 'hidden') {
       style.stroke = style.fill;
     }
+  }
+
+  if (properties.rx) {
+    style.rx = properties.rx;
+  }
+
+  if (properties.ry) {
+    style.ry = properties.ry;
   }
 
   return style;

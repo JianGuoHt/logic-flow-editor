@@ -1,9 +1,13 @@
 import { RectNode, RectNodeModel } from '@logicflow/core';
-
-import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
+import { merge } from 'lodash-es';
 
 import {
-  transformShapeStyleMapping,
+  getNodeCustomDefaultProperties,
+  getRectNodeDefaultProperties,
+} from '#/components/help/reset-custom-properties';
+
+import {
+  formatShapeStyleMapping,
   transformTextStyleMapping,
 } from '../utils/transform-style';
 
@@ -14,7 +18,8 @@ class CusRectModel extends RectNodeModel {
   override getNodeStyle() {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
-    return transformShapeStyleMapping(style, properties);
+
+    return merge(style, formatShapeStyleMapping(properties));
   }
 
   /**
@@ -32,10 +37,11 @@ class CusRectModel extends RectNodeModel {
    */
   override initNodeData(data: any) {
     super.initNodeData(data);
-    this.width = 50;
-    this.height = 50;
+    // this.width = 50;
+    // this.height = 50;
     this.setProperties({
       ...getNodeCustomDefaultProperties(),
+      ...getRectNodeDefaultProperties(),
     });
   }
 }

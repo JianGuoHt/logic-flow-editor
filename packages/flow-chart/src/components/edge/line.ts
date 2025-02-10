@@ -3,8 +3,9 @@
  */
 
 import LogicFlow, { LineEdge, LineEdgeModel } from '@logicflow/core';
+import { merge } from 'lodash-es';
 
-import { transformShapeStyleMapping } from '../node/utils/transform-style';
+import { formatShapeStyleMapping } from '../node/utils/transform-style';
 import { EdgeEndShapeStyle, getActiveEdgeEndShapeType } from './help';
 
 /**
@@ -14,7 +15,7 @@ class ProLineEdgeModel extends LineEdgeModel {
   override getEdgeStyle() {
     const style = super.getEdgeStyle();
     const properties = this.getProperties();
-    return transformShapeStyleMapping(style, properties);
+    return merge(style, formatShapeStyleMapping(properties));
   }
 
   override initEdgeData(data: LogicFlow.EdgeConfig<LogicFlow.PropertiesType>) {

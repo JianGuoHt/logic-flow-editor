@@ -1,9 +1,13 @@
 import { EllipseNode, EllipseNodeModel } from '@logicflow/core';
-
-import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
+import { merge } from 'lodash-es';
 
 import {
-  transformShapeStyleMapping,
+  getCircleNodeDefaultProperties,
+  getNodeCustomDefaultProperties,
+} from '#/components/help/reset-custom-properties';
+
+import {
+  formatShapeStyleMapping,
   transformTextStyleMapping,
 } from '../utils/transform-style';
 
@@ -14,7 +18,10 @@ class CusEllipseModel extends EllipseNodeModel {
   override getNodeStyle() {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
-    return transformShapeStyleMapping(style, properties);
+
+    const formatStyle = merge(style, formatShapeStyleMapping(properties));
+
+    return formatStyle;
   }
 
   /**
@@ -32,11 +39,10 @@ class CusEllipseModel extends EllipseNodeModel {
    */
   override initNodeData(data: any) {
     super.initNodeData(data);
-    this.rx = 35;
-    this.ry = 35;
 
     this.setProperties({
       ...getNodeCustomDefaultProperties(),
+      ...getCircleNodeDefaultProperties(),
     });
   }
 }
