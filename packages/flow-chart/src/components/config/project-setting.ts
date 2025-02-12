@@ -4,7 +4,7 @@
 export function getProjectSetting() {
   return {
     propertyPanel: {
-      width: 300,
+      width: 260,
     },
 
     toolbar: {

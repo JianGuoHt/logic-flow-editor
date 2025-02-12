@@ -8,7 +8,7 @@ import { merge } from 'lodash-es';
 import { getEdgeConfig } from '../config/edge';
 import {
   formatShapeStyleMapping,
-  transformTextStyleMapping,
+  formatShapeTextStyleMapping,
 } from '../node/utils/transform-style';
 import { EdgeEndShapeStyle, getActiveEdgeEndShapeType } from './help';
 
@@ -26,7 +26,7 @@ class ProPolylineEdgeModel extends PolylineEdgeModel {
     const style = super.getTextStyle();
     const properties = this.getProperties();
 
-    return transformTextStyleMapping(style, properties);
+    return merge(style, formatShapeTextStyleMapping(properties));
   }
 
   override initEdgeData(data: LogicFlow.EdgeConfig<LogicFlow.PropertiesType>) {

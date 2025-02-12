@@ -1,4 +1,5 @@
 import { colors, consola } from '@clsy/node-utils';
+
 import { cac } from 'cac';
 
 import { run } from './run';

@@ -1,19 +1,37 @@
 <script setup lang="ts">
+import type LogicFlow from '@logicflow/core';
+
+import type {
+  CustomNodeAllStyleProperty,
+  CustomNodeCommonStyleProperty,
+} from '../types/custom-properties';
+
+import { isNil, omit } from 'lodash-es';
+
 import { getProjectSetting } from '../config/project-setting';
+import {
+  getNodeCustomDefaultProperties,
+  getNodeDefaultProperties,
+} from '../help/reset-custom-properties';
 import { useLf } from '../hooks/useLf';
 import { useLfEvent } from '../hooks/useLfEvent';
 import StylePanel from './components/style-panel/style-panel.vue';
+import { diagramPropertyPanelProvideKey } from './help/property-panel-provide';
 
 const { propertyPanel, toolbar } = getProjectSetting();
 
 const lf = useLf();
 
-const isActive = ref(false);
-const activePane = ref('style');
-
 useLfEvent('node:click', () => onLfNodeActive('node:click'));
 useLfEvent('selection:selected', () => onLfNodeActive('selection:selected'));
 useLfEvent('blank:click	', onLfNodeInactive);
+useLfEvent('node:mousemove', onLfNodeMove);
+useLfEvent('node:dnd-add', onLfNodeDndAdd);
+
+const isActive = ref(false);
+const activePane = ref('style');
+const activeNodes = ref<LogicFlow.NodeData[]>([]);
+const form = ref<CustomNodeAllStyleProperty>(getNodeDefaultProperties());
 
 /**
  * 节点激活
@@ -44,6 +62,11 @@ function onLfNodeActive(type: 'node:click' | 'selection:selected') {
       isActive.value = true;
     }
   }
+
+  if (isActive.value) {
+    setActivePropertiesForm();
+    activeNodes.value = lf.getSelectElements().nodes;
+  }
 }
 
 /**
@@ -52,6 +75,119 @@ function onLfNodeActive(type: 'node:click' | 'selection:selected') {
 function onLfNodeInactive() {
   isActive.value = false;
 }
+
+/**
+ * 节点移动
+ */
+function onLfNodeMove() {
+  if (isActive.value) {
+    setActivePropertiesForm();
+  }
+}
+
+/**
+ * 节点拖拽添加
+ */
+function onLfNodeDndAdd() {}
+
+/**
+ * 设置属性面板的数值
+ */
+function setActivePropertiesForm() {
+  const { nodes } = lf.getSelectElements();
+  const defaultForm = getNodeCustomDefaultProperties();
+
+  if (nodes.length === 0) {
+    return;
+  }
+
+  if (nodes.length > 1) {
+    // 框选多个节点时，属性面板全部重置为默认值
+    form.value = defaultForm;
+    return;
+  }
+
+  if (nodes.length === 1) {
+    // 框选一个节点时，属性面板显示当前节点的属性
+    const node = nodes[0];
+    if (!node) {
+      return;
+    }
+
+    const { properties, x, y } = node;
+    // 需要忽略从属性上获取数值的属性
+    const omitPropertiesKeys = [
+      'x',
+      'y',
+    ] as (keyof CustomNodeAllStyleProperty)[];
+
+    form.value.x = x;
+    form.value.y = y;
+
+    if (!properties) {
+      // 无法获取节点属性, 属性面板重置为默认值
+      form.value = omit(defaultForm, ...omitPropertiesKeys);
+      return;
+    }
+
+    Object.keys(form.value).forEach((key) => {
+      if (
+        omitPropertiesKeys.includes(key as keyof CustomNodeCommonStyleProperty)
+      ) {
+        return;
+      }
+
+      const value = isNil(properties[key])
+        ? defaultForm[key as keyof CustomNodeCommonStyleProperty] || null
+        : properties[key];
+
+      Reflect.set(form.value, key, value);
+    });
+  }
+}
+
+/**
+ * 设置激活节点属性
+ * @param key
+ * @param value
+ */
+function setNodeProperties<K extends keyof CustomNodeAllStyleProperty>(
+  key: K,
+  value: CustomNodeAllStyleProperty[K],
+) {
+  const { nodes } = lf.getSelectElements();
+
+  nodes.forEach((node) => {
+    lf.setProperties(node.id, {
+      [key]: value,
+    });
+
+    // 处理特殊属性
+    if (key === 'x' || key === 'y') {
+      const nodeModel = lf.getNodeModelById(node.id);
+      let _value = Number(value);
+
+      if (nodeModel && !Number.isNaN(_value)) {
+        if (key === 'x') {
+          _value = isNil(_value) ? node.x : _value;
+          nodeModel.moveTo(_value, node.y);
+        }
+        if (key === 'y' && !Number.isNaN(_value)) {
+          _value = isNil(_value) ? node.y : _value;
+          nodeModel.moveTo(node.x, _value);
+        }
+      }
+    }
+
+    setActivePropertiesForm();
+  });
+}
+
+provide(diagramPropertyPanelProvideKey, {
+  activeNodes,
+  form,
+  setNodeProperties,
+});
 </script>
 
 <template>
@@ -64,13 +200,20 @@ function onLfNodeInactive() {
       top: `${toolbar.height}px`,
       zIndex: 9,
     }"
-    class="diagram-property-panel fixed right-0 bg-white px-2"
+    class="diagram-property-panel fixed right-0 bg-white pl-2"
   >
-    <el-tabs v-model="activePane" class="h-full">
-      <el-tab-pane label="外观" name="style">
-        <StylePanel />
-      </el-tab-pane>
-    </el-tabs>
+    <ElForm
+      :model="form"
+      class="h-full"
+      label-position="left"
+      label-width="90px"
+    >
+      <el-tabs v-model="activePane" class="h-full">
+        <el-tab-pane label="外观" name="style">
+          <StylePanel />
+        </el-tab-pane>
+      </el-tabs>
+    </ElForm>
   </div>
 </template>
 

@@ -8,7 +8,7 @@ import {
 
 import {
   formatShapeStyleMapping,
-  transformTextStyleMapping,
+  formatShapeTextStyleMapping,
 } from '../utils/transform-style';
 
 class CusEllipseModel extends EllipseNodeModel {
@@ -19,7 +19,7 @@ class CusEllipseModel extends EllipseNodeModel {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
 
-    const formatStyle = merge(style, formatShapeStyleMapping(properties));
+    const formatStyle = merge(style, formatShapeStyleMapping(properties, {}));
 
     return formatStyle;
   }
@@ -31,7 +31,7 @@ class CusEllipseModel extends EllipseNodeModel {
     const style = super.getTextStyle();
     const properties = this.getProperties();
 
-    return transformTextStyleMapping(style, properties);
+    return merge(style, formatShapeTextStyleMapping(properties));
   }
 
   /**

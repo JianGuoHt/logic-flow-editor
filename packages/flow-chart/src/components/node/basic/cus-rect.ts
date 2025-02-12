@@ -8,7 +8,7 @@ import {
 
 import {
   formatShapeStyleMapping,
-  transformTextStyleMapping,
+  formatShapeTextStyleMapping,
 } from '../utils/transform-style';
 
 class CusRectModel extends RectNodeModel {
@@ -29,7 +29,7 @@ class CusRectModel extends RectNodeModel {
     const style = super.getTextStyle();
     const properties = this.getProperties();
 
-    return transformTextStyleMapping(style, properties);
+    return merge(style, formatShapeTextStyleMapping(properties));
   }
 
   /**

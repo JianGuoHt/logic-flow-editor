@@ -10,7 +10,20 @@ import type {
  */
 export function getNodeCustomDefaultProperties(): Required<CustomNodeCommonStyleProperty> {
   return {
-    backgroundColor: 'rgba(255, 255, 215, 1)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    borderColor: 'rgba(0, 0, 0, 1)',
+    borderType: 'solid',
+    borderWidth: 1,
+    fontFamily: 'Arial',
+    fontSize: 12,
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    textAlign: 'middle',
+    textBackgroundColor: 'rgba(255, 255, 255, 1)',
+    textColor: 'rgba(0, 0, 0, 1)',
+    textLineHeight: 12,
+    x: 0,
+    y: 0,
   };
 }
 
@@ -19,8 +32,8 @@ export function getNodeCustomDefaultProperties(): Required<CustomNodeCommonStyle
  */
 export function getRectNodeDefaultProperties(): Required<CustomRectNodeProperty> {
   return {
-    height: 50,
-    width: 50,
+    height: 100,
+    width: 100,
   };
 }
 

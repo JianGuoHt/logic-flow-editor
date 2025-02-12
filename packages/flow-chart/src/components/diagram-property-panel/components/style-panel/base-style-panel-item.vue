@@ -1,86 +1,39 @@
 <script setup lang="ts">
-import type LogicFlow from '@logicflow/core';
-
-import type {
-  CustomNodeAllStyleProperty,
-  CustomNodeCommonStyleProperty,
-} from '#/components/types/custom-properties';
-
-import { isNil } from 'lodash-es';
+import type { CustomNodeCommonStyleProperty } from '#/components/types/custom-properties';
 
 import { useLf } from '#/components/hooks/useLf';
-import { useLfActiveNodes } from '#/components/hooks/useLfActiveNode';
+import { getActiveNodeModelType } from '#/components/utils/node';
 
-import {
-  getNodeCustomDefaultProperties,
-  getNodeDefaultProperties,
-} from '../../../help/reset-custom-properties';
+import { diagramPropertyPanelProvideKey } from '../../help/property-panel-provide';
 
 const lf = useLf();
-const activeNode = useLfActiveNodes(onLfNodeActive);
 
-const form = ref<CustomNodeAllStyleProperty>(getNodeDefaultProperties());
+const injectDiagramPropertyPanel = inject(diagramPropertyPanelProvideKey);
 
-/**
- * 节点激活 回调
- * @param nodes
- */
-function onLfNodeActive(nodes: LogicFlow.NodeData[]) {
-  const defaultForm = getNodeCustomDefaultProperties();
+const form = injectDiagramPropertyPanel!.form;
 
-  if (nodes.length === 0) {
-    return;
-  }
+const setNodeProperties = injectDiagramPropertyPanel!.setNodeProperties;
 
-  if (nodes.length > 1) {
-    // 框选多个节点时，属性面板全部重置为默认值
-    form.value = defaultForm;
-    return;
-  }
+const activeNode = injectDiagramPropertyPanel!.activeNodes;
 
-  if (nodes.length === 1) {
-    // 框选一个节点时，属性面板显示当前节点的属性
-    const nodeProperties = nodes[0]?.properties;
+/** 单选节点 */
+const isSingleActiveNode = computed(() => activeNode.value.length === 1);
 
-    if (!nodeProperties) {
-      // 无法获取节点属性, 属性面板重置为默认值
-      form.value = defaultForm;
-      return;
-    }
-
-    Object.keys(form.value).forEach((key) => {
-      const value = isNil(nodeProperties[key])
-        ? defaultForm[key as keyof CustomNodeCommonStyleProperty] || null
-        : nodeProperties[key];
-
-      Reflect.set(form.value, key, value);
-    });
-  }
-}
-
-/**
- * 设置激活节点属性
- * @param key
- * @param value
- */
-function setNodeProperties<K extends keyof CustomNodeAllStyleProperty>(
-  key: K,
-  value: CustomNodeAllStyleProperty[K],
-) {
-  activeNode.value.forEach((node) => {
-    lf.setProperties(node.id, {
-      [key]: value,
-    });
-  });
-}
+/** 选中的节点是圆形 */
+const isEllipse = computed(() => {
+  // eslint-disable-next-line no-unused-expressions
+  activeNode.value;
+  return getActiveNodeModelType(lf) === 'ellipse-node';
+});
 </script>
 
 <template>
-  <div class="base-style-panel-item">
-    <ElForm :model="form" label-position="left" label-width="90px">
+  <div class="">
+    <template v-if="isSingleActiveNode">
       <ElFormItem label="宽度">
         <ElInputNumber
           v-model="form.width"
+          :disabled="isEllipse"
           :min="2"
           :step="1"
           @change="(v) => setNodeProperties('width', v)"
@@ -89,18 +42,67 @@ function setNodeProperties<K extends keyof CustomNodeAllStyleProperty>(
       <ElFormItem label="高度">
         <ElInputNumber
           v-model="form.height"
+          :disabled="isEllipse"
           :min="2"
           :step="1"
           @change="(v) => setNodeProperties('height', v)"
         />
       </ElFormItem>
-      <ElFormItem label="背景色">
-        <ElColorPicker
-          v-model="form.backgroundColor"
-          show-alpha
-          @change="(v) => setNodeProperties('backgroundColor', v!)"
-        />
-      </ElFormItem>
-    </ElForm>
+
+      <template v-if="isEllipse">
+        <ElFormItem label="半径X">
+          <ElInputNumber
+            v-model="form.rx"
+            :min="2"
+            :step="1"
+            @change="(v) => setNodeProperties('rx', v)"
+          />
+        </ElFormItem>
+        <ElFormItem label="半径Y">
+          <ElInputNumber
+            v-model="form.ry"
+            :min="2"
+            :step="1"
+            @change="(v) => setNodeProperties('ry', v)"
+          />
+        </ElFormItem>
+      </template>
+    </template>
+
+    <ElFormItem label="背景色">
+      <ElColorPicker
+        v-model="form.backgroundColor"
+        show-alpha
+        @change="(v) => setNodeProperties('backgroundColor', v!)"
+      />
+    </ElFormItem>
+    <ElFormItem label="边框颜色">
+      <ElColorPicker
+        v-model="form.borderColor"
+        show-alpha
+        @change="(v) => setNodeProperties('borderColor', v!)"
+      />
+    </ElFormItem>
+    <ElFormItem label="边框宽度">
+      <ElInputNumber
+        v-model="form.borderWidth"
+        :min="0"
+        :step="1"
+        @change="(v) => setNodeProperties('borderWidth', v)"
+      />
+    </ElFormItem>
+    <ElFormItem label="边框类型">
+      <ElSelect
+        v-model="form.borderType"
+        @change="
+          (v: CustomNodeCommonStyleProperty['borderType']) =>
+            setNodeProperties('borderType', v)
+        "
+      >
+        <ElOption label="实线" value="solid" />
+        <ElOption label="虚线" value="dashed" />
+        <ElOption label="点线" value="dotted" />
+      </ElSelect>
+    </ElFormItem>
   </div>
 </template>
