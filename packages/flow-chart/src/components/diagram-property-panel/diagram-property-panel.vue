@@ -6,13 +6,10 @@ import type {
   CustomNodeCommonStyleProperty,
 } from '../types/custom-properties';
 
-import { isNil, omit } from 'lodash-es';
+import { isNil, omit } from 'es-toolkit';
 
 import { getProjectSetting } from '../config/project-setting';
-import {
-  getNodeCustomDefaultProperties,
-  getNodeDefaultProperties,
-} from '../help/reset-custom-properties';
+import { getNodeDefaultProperties } from '../help/reset-custom-properties';
 import { useLf } from '../hooks/useLf';
 import { useLfEvent } from '../hooks/useLfEvent';
 import StylePanel from './components/style-panel/style-panel.vue';
@@ -95,7 +92,7 @@ function onLfNodeDndAdd() {}
  */
 function setActivePropertiesForm() {
   const { nodes } = lf.getSelectElements();
-  const defaultForm = getNodeCustomDefaultProperties();
+  const defaultForm = getNodeDefaultProperties();
 
   if (nodes.length === 0) {
     return;
@@ -126,7 +123,7 @@ function setActivePropertiesForm() {
 
     if (!properties) {
       // 无法获取节点属性, 属性面板重置为默认值
-      form.value = omit(defaultForm, ...omitPropertiesKeys);
+      form.value = omit(defaultForm, omitPropertiesKeys);
       return;
     }
 

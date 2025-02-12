@@ -3,7 +3,7 @@
  */
 
 import LogicFlow, { BezierEdge, BezierEdgeModel } from '@logicflow/core';
-import { merge } from 'lodash-es';
+import { merge } from 'es-toolkit';
 
 import { formatShapeStyleMapping } from '../node/utils/transform-style';
 import { EdgeEndShapeStyle, getActiveEdgeEndShapeType } from './help';

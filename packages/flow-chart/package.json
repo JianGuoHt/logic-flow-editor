@@ -18,11 +18,10 @@
     "@logicflow/core": "catalog:",
     "@logicflow/extension": "catalog:",
     "element-plus": "catalog:",
-    "lodash-es": "catalog:",
+    "es-toolkit": "catalog:",
     "vue": "catalog:"
   },
   "devDependencies": {
-    "@types/lodash-es": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vue/tsconfig": "catalog:",
     "typescript": "catalog:",

@@ -7,8 +7,11 @@ import { CusEllipse } from '../../../basic';
 class EllipseNodeModel extends CusEllipse.model {
   override initNodeData(data: any) {
     super.initNodeData(data);
-    this.rx = 60;
-    this.ry = 30;
+
+    this.setProperties({
+      rx: 60,
+      ry: 30,
+    });
   }
 }
 

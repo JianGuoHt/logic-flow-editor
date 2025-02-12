@@ -1,5 +1,5 @@
 import { RectNode, RectNodeModel } from '@logicflow/core';
-import { merge } from 'lodash-es';
+import { merge } from 'es-toolkit';
 
 import {
   getNodeCustomDefaultProperties,

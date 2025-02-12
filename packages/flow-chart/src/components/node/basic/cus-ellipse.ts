@@ -1,5 +1,5 @@
 import { EllipseNode, EllipseNodeModel } from '@logicflow/core';
-import { merge } from 'lodash-es';
+import { merge } from 'es-toolkit';
 
 import {
   getCircleNodeDefaultProperties,
@@ -19,7 +19,7 @@ class CusEllipseModel extends EllipseNodeModel {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
 
-    const formatStyle = merge(style, formatShapeStyleMapping(properties, {}));
+    const formatStyle = merge(style, formatShapeStyleMapping(properties));
 
     return formatStyle;
   }

@@ -1,5 +1,5 @@
 import { h } from '@logicflow/core';
-import { merge } from 'lodash-es';
+import { merge } from 'es-toolkit';
 
 import { getEdgeConfig } from '#/components/config/edge';
 

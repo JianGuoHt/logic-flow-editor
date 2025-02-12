@@ -3,7 +3,7 @@
  */
 
 import LogicFlow, { PolylineEdge, PolylineEdgeModel } from '@logicflow/core';
-import { merge } from 'lodash-es';
+import { merge } from 'es-toolkit';
 
 import { getEdgeConfig } from '../config/edge';
 import {

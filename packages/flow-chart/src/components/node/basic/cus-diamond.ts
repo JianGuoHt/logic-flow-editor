@@ -1,5 +1,5 @@
 import { DiamondNode, DiamondNodeModel } from '@logicflow/core';
-import { merge } from 'lodash-es';
+import { merge } from 'es-toolkit';
 
 import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
 
