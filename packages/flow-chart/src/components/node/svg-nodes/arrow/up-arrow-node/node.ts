@@ -45,6 +45,6 @@ class UpArrowNodeView extends CusRect.view {
 
 export default {
   model: UpArrowNodeModel,
-  type: 'pro-up-arrow',
+  type: 'svg-up-arrow',
   view: UpArrowNodeView,
 };

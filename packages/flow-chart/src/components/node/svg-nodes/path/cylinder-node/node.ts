@@ -85,6 +85,6 @@ class CylinderNodeView extends CusRect.view {
 
 export default {
   model: CylinderNodeModel,
-  type: 'pro-cylinder',
+  type: 'svg-cylinder',
   view: CylinderNodeView,
 };

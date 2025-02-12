@@ -46,6 +46,6 @@ class DownArrowNodeView extends CusRect.view {
 
 export default {
   model: DownArrowNodeModel,
-  type: 'pro-down-arrow',
+  type: 'svg-down-arrow',
   view: DownArrowNodeView,
 };

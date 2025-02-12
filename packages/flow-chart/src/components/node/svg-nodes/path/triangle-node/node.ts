@@ -38,6 +38,6 @@ class TriangleNodeView extends CusRect.view {
 
 export default {
   model: TriangleNodeModel,
-  type: 'pro-triangle',
+  type: 'svg-triangle',
   view: TriangleNodeView,
 };

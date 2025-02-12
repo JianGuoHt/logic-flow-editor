@@ -19,6 +19,6 @@ class EllipseNodeView extends CusEllipse.view {}
 
 export default {
   model: EllipseNodeModel,
-  type: 'pro-ellipse',
+  type: 'svg-ellipse',
   view: EllipseNodeView,
 };

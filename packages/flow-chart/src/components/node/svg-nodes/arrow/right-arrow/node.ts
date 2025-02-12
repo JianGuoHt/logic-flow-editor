@@ -45,6 +45,6 @@ class RightArrowNodeView extends CusRect.view {
 
 export default {
   model: RightArrowNodeModel,
-  type: 'pro-right-arrow',
+  type: 'svg-right-arrow',
   view: RightArrowNodeView,
 };

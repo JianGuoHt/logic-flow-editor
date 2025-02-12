@@ -52,6 +52,6 @@ class HorizontalArrowNodeView extends CusRect.view {
 
 export default {
   model: HorizontalArrowNodeModel,
-  type: 'pro-horizontal-arrow',
+  type: 'svg-horizontal-arrow',
   view: HorizontalArrowNodeView,
 };

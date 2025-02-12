@@ -51,6 +51,6 @@ class VerticalArrowNodeView extends CusRect.view {
 
 export default {
   model: VerticalArrowNodeModel,
-  type: 'pro-vertical-arrow',
+  type: 'svg-vertical-arrow',
   view: VerticalArrowNodeView,
 };

@@ -84,6 +84,6 @@ class ActorNodeView extends CusRect.view {
 
 export default {
   model: ActorNodeModel,
-  type: 'pro-actor',
+  type: 'svg-actor',
   view: ActorNodeView,
 };

@@ -39,6 +39,6 @@ class CircleNodeView extends CusEllipse.view {
 
 export default {
   model: CircleNodeModel,
-  type: 'pro-circle',
+  type: 'svg-circle',
   view: CircleNodeView,
 };

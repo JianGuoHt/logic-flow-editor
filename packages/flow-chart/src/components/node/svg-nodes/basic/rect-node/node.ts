@@ -30,6 +30,6 @@ class RectNodeView extends CusRect.view {
 
 export default {
   model: RectNodeModel,
-  type: 'pro-rect',
+  type: 'svg-rect',
   view: RectNodeView,
 };

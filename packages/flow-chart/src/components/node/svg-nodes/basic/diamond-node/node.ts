@@ -35,6 +35,6 @@ class DiamondNodeView extends CusDiamond.view {
 
 export default {
   model: DiamondNodeModel,
-  type: 'pro-diamond',
+  type: 'svg-diamond',
   view: DiamondNodeView,
 };

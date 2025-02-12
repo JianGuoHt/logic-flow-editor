@@ -1,1 +1,1 @@
-export { default as Diagram } from './diagram/diagram.vue';
+export { default as Diagram } from './diagram/Diagram.vue';

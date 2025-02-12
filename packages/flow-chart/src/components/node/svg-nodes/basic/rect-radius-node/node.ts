@@ -14,6 +14,6 @@ class RectRadiusView extends CusRect.view {}
 
 export default {
   model: RectRadiusModel,
-  type: 'pro-rect-radius',
+  type: 'svg-rect-radius',
   view: RectRadiusView,
 };

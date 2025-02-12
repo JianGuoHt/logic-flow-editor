@@ -44,6 +44,6 @@ class LeftArrowNodeView extends CusRect.view {
 
 export default {
   model: LeftArrowNodeModel,
-  type: 'pro-left-arrow',
+  type: 'svg-left-arrow',
   view: LeftArrowNodeView,
 };

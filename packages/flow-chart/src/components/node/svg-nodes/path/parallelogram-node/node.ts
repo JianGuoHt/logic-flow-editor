@@ -42,6 +42,6 @@ class ParallelogramNodeView extends CusRect.view {
 
 export default {
   model: ParallelogramNodeModel,
-  type: 'pro-parallelogram',
+  type: 'svg-parallelogram',
   view: ParallelogramNodeView,
 };
