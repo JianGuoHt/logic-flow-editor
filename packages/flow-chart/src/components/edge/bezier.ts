@@ -7,6 +7,7 @@ import { merge } from 'es-toolkit';
 
 import { formatShapeStyleMapping } from '../node/utils/transform-style';
 import { EdgeEndShapeStyle, getActiveEdgeEndShapeType } from './help';
+import { EdgeTypeEnum } from './types';
 
 /**
  * edge 贝塞尔曲线 -- Model
@@ -48,6 +49,6 @@ class ProBezierEdge extends BezierEdge {
 
 export default {
   model: ProBezierEdgeModel,
-  type: 'pro-bezier',
+  type: EdgeTypeEnum.PRO_BEZIER,
   view: ProBezierEdge,
 };

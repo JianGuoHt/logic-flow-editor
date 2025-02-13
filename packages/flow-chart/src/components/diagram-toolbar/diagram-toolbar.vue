@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { getProjectSetting } from '../config/project-setting';
+import DiagramSize from './components/diagram-size.vue';
 import EdgeEndShapeType from './components/edge-end-shape-type.vue';
 import EdgeType from './components/edge-type.vue';
+import MiniMap from './components/mini-map.vue';
 import SelectionSelectTool from './components/selection-select-tool.vue';
 
 const projectSetting = getProjectSetting();
@@ -23,6 +25,8 @@ const projectSetting = getProjectSetting();
     <SelectionSelectTool />
     <EdgeType />
     <EdgeEndShapeType />
+    <MiniMap />
+    <DiagramSize />
   </div>
 </template>
 
@@ -44,6 +48,11 @@ const projectSetting = getProjectSetting();
 
     .el-icon {
       display: flex;
+    }
+
+    .tool-item-top-text {
+      font-size: 14px;
+      line-height: 14px;
     }
   }
 }

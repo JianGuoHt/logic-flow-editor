@@ -20,6 +20,7 @@ const { propertyPanel, toolbar } = getProjectSetting();
 const lf = useLf();
 
 useLfEvent('node:click', () => onLfNodeActive('node:click'));
+useLfEvent('label:click', () => onLfNodeActive('label:click'));
 useLfEvent('selection:selected', () => onLfNodeActive('selection:selected'));
 useLfEvent('blank:click	', onLfNodeInactive);
 useLfEvent('node:mousemove', onLfNodeMove);
@@ -33,11 +34,14 @@ const form = ref<CustomNodeAllStyleProperty>(getNodeDefaultProperties());
 /**
  * 节点激活
  */
-function onLfNodeActive(type: 'node:click' | 'selection:selected') {
+function onLfNodeActive(
+  type: 'label:click' | 'node:click' | 'selection:selected',
+) {
   switch (type) {
     /**
      * 点击节点
      */
+    case 'label:click':
     case 'node:click': {
       isActive.value = true;
       break;

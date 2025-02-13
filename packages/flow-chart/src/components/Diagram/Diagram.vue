@@ -2,7 +2,14 @@
 import type { RegisterCusNodeGroupOptions } from '../types/register-node';
 
 import LogicFlow from '@logicflow/core';
-import { SelectionSelect } from '@logicflow/extension';
+import {
+  Highlight,
+  Menu,
+  MiniMap,
+  ProximityConnect,
+  type ProximityConnectProps,
+  SelectionSelect,
+} from '@logicflow/extension';
 
 import { getProjectSetting } from '../config/project-setting';
 import DiagramGraphicElementSidebar from '../diagram-graphic-element-sidebar/diagram-graphic-element-sidebar.vue';
@@ -41,7 +48,19 @@ function initLogicFlow() {
       visible: false,
     },
     overlapMode: 1,
-    plugins: [SelectionSelect],
+    plugins: [SelectionSelect, Menu, MiniMap, ProximityConnect, Highlight],
+    pluginsOptions: {
+      miniMap: {
+        bottomPosition: 0,
+        height: 200,
+        leftPosition: 0,
+        width: 200,
+      },
+      proximityConnect: {
+        distance: 20,
+        enable: true,
+      } as ProximityConnectProps,
+    },
   });
 
   const _lf = unref(lf as unknown as LogicFlow);
@@ -66,8 +85,6 @@ function initLogicFlow() {
 
   registerCustomElement(_lf);
   registerCustomEdge(_lf);
-
-  _lf.on('history:change1', () => {});
 
   _lf.render({});
 }
@@ -134,3 +151,7 @@ provide(lfProvideKey, {
     </div>
   </div>
 </template>
+
+<style lang="scss">
+@use '../design/index.scss';
+</style>

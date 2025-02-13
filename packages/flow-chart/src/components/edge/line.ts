@@ -7,6 +7,7 @@ import { merge } from 'es-toolkit';
 
 import { formatShapeStyleMapping } from '../node/utils/transform-style';
 import { EdgeEndShapeStyle, getActiveEdgeEndShapeType } from './help';
+import { EdgeTypeEnum } from './types';
 
 /**
  * edge 直线 -- Model
@@ -48,6 +49,6 @@ class ProLineEdge extends LineEdge {
 
 export default {
   model: ProLineEdgeModel,
-  type: 'pro-line',
+  type: EdgeTypeEnum.PRO_LINE,
   view: ProLineEdge,
 };

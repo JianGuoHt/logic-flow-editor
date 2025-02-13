@@ -28,6 +28,11 @@ export enum EdgeTypeEnum {
   PRO_BEZIER = 'pro-bezier',
 
   /**
+   * 圆角线段
+   */
+  PRO_CURVED = 'pro-curved',
+
+  /**
    * 直线
    */
   PRO_LINE = 'pro-line',
