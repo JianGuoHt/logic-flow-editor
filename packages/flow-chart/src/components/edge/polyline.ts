@@ -7,8 +7,8 @@ import { merge } from 'es-toolkit';
 
 import { getEdgeConfig } from '../config/edge';
 import {
-  formatShapeStyleMapping,
-  formatShapeTextStyleMapping,
+  formatSvgShapeStyleMapping,
+  formatSvgShapeTextStyleMapping,
 } from '../node/utils/transform-style';
 import { EdgeEndShapeStyle, getActiveEdgeEndShapeType } from './help';
 import { EdgeTypeEnum } from './types';
@@ -20,14 +20,14 @@ class ProPolylineEdgeModel extends PolylineEdgeModel {
   override getEdgeStyle() {
     const style = super.getEdgeStyle();
     const properties = this.getProperties();
-    return merge(style, formatShapeStyleMapping(properties));
+    return merge(style, formatSvgShapeStyleMapping(properties));
   }
 
   override getTextStyle() {
     const style = super.getTextStyle();
     const properties = this.getProperties();
 
-    return merge(style, formatShapeTextStyleMapping(properties));
+    return merge(style, formatSvgShapeTextStyleMapping(properties));
   }
 
   override initEdgeData(data: LogicFlow.EdgeConfig<LogicFlow.PropertiesType>) {

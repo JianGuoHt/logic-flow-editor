@@ -4,12 +4,15 @@ import type { RegisterCusNodeGroupOptions } from '../types/register-node';
 import LogicFlow from '@logicflow/core';
 import {
   Highlight,
+  type ILabelOptions,
+  Label,
   Menu,
   MiniMap,
   ProximityConnect,
   type ProximityConnectProps,
   SelectionSelect,
 } from '@logicflow/extension';
+import { getTeleport } from '@logicflow/vue-node-registry';
 
 import { getProjectSetting } from '../config/project-setting';
 import DiagramGraphicElementSidebar from '../diagram-graphic-element-sidebar/diagram-graphic-element-sidebar.vue';
@@ -19,6 +22,8 @@ import { registerCustomEdge } from '../edge';
 import { getActiveEdgeType } from '../edge/help';
 import { mittEmitter } from '../events/mitt';
 import { registerCustomElement } from '../node';
+import { registerHtmlNodes } from '../node/html-node';
+import { registerVueNodes } from '../node/vue-node';
 import { lfProvideKey } from '../types/lf-token';
 
 import '@logicflow/core/dist/index.css';
@@ -29,6 +34,8 @@ const projectSetting = getProjectSetting();
 const diagramRef = useTemplateRef<HTMLDivElement>('diagramRef');
 
 const lf = shallowRef<LogicFlow>();
+const TeleportContainer = getTeleport();
+const flowId = ref('');
 
 const registerCustomNodes = ref<RegisterCusNodeGroupOptions[]>([]);
 
@@ -48,8 +55,16 @@ function initLogicFlow() {
       visible: false,
     },
     overlapMode: 1,
-    plugins: [SelectionSelect, Menu, MiniMap, ProximityConnect, Highlight],
+    plugins: [
+      SelectionSelect,
+      Menu,
+      MiniMap,
+      ProximityConnect,
+      Highlight,
+      Label,
+    ],
     pluginsOptions: {
+      label: {} as ILabelOptions,
       miniMap: {
         bottomPosition: 0,
         height: 200,
@@ -64,6 +79,10 @@ function initLogicFlow() {
   });
 
   const _lf = unref(lf as unknown as LogicFlow);
+
+  _lf.on('graph:rendered', ({ graphModel }) => {
+    flowId.value = graphModel.flowId!;
+  });
 
   _lf.setTheme({
     baseEdge: { strokeWidth: 1 },
@@ -85,6 +104,9 @@ function initLogicFlow() {
 
   registerCustomElement(_lf);
   registerCustomEdge(_lf);
+  registerVueNodes(_lf);
+  registerHtmlNodes(_lf);
+  setLfMenu(_lf);
 
   _lf.render({});
 }
@@ -105,6 +127,22 @@ function initOnMittRegister() {
     }));
 
     registerCustomNodes.value.push(...data);
+  });
+}
+
+/**
+ * 设置右键菜单
+ */
+function setLfMenu(lf: LogicFlow) {
+  const menu = lf.extension.menu as Menu;
+
+  menu.setMenuConfig({
+    nodeMenu: [
+      {
+        callback: () => {},
+        text: '删除',
+      },
+    ],
   });
 }
 
@@ -147,6 +185,7 @@ provide(lfProvideKey, {
 
       <div class="h-full flex-1 overflow-hidden">
         <div ref="diagramRef" class="diagram-main-body h-full w-full"></div>
+        <TeleportContainer :flow-id="flowId" />
       </div>
     </div>
   </div>

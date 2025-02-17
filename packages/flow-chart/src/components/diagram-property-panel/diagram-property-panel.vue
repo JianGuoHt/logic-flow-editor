@@ -37,32 +37,24 @@ const form = ref<CustomNodeAllStyleProperty>(getNodeDefaultProperties());
 function onLfNodeActive(
   type: 'label:click' | 'node:click' | 'selection:selected',
 ) {
-  switch (type) {
-    /**
-     * 点击节点
-     */
-    case 'label:click':
-    case 'node:click': {
-      isActive.value = true;
-      break;
-    }
+  const { nodes } = lf.getSelectElements();
 
-    /**
-     * 框选
-     */
-    case 'selection:selected': {
-      const { edges, nodes } = lf.getSelectElements();
+  // FIXME: 或许这是一个特性，但是这里不需要这样。后续看官方的调整，持续跟进。
+  /**
+   * 修复连续点击不同节点的 Label节点时，不会取消上一个节点的选中状态，会导致出现类似框选的效果。
+   */
+  if (type === 'label:click') {
+    const diffNodes = nodes.filter(
+      (node) => !activeNodes.value.some((n) => n.id === node.id),
+    );
 
-      if (nodes.length > 0 || edges.length > 0) {
-        isActive.value = true;
-      }
-      break;
-    }
-
-    default: {
-      isActive.value = true;
+    if (diffNodes && !!diffNodes[0]) {
+      lf.clearSelectElements();
+      lf.selectElementById(diffNodes[0].id);
     }
   }
+
+  isActive.value = nodes.length > 0;
 
   if (isActive.value) {
     setActivePropertiesForm();

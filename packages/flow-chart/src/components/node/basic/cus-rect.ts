@@ -7,8 +7,8 @@ import {
 } from '#/components/help/reset-custom-properties';
 
 import {
-  formatShapeStyleMapping,
-  formatShapeTextStyleMapping,
+  formatSvgShapeStyleMapping,
+  formatSvgShapeTextStyleMapping,
 } from '../utils/transform-style';
 
 class CusRectModel extends RectNodeModel {
@@ -19,7 +19,7 @@ class CusRectModel extends RectNodeModel {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
 
-    return merge(style, formatShapeStyleMapping(properties));
+    return merge(style, formatSvgShapeStyleMapping(properties));
   }
 
   /**
@@ -29,7 +29,7 @@ class CusRectModel extends RectNodeModel {
     const style = super.getTextStyle();
     const properties = this.getProperties();
 
-    return merge(style, formatShapeTextStyleMapping(properties));
+    return merge(style, formatSvgShapeTextStyleMapping(properties));
   }
 
   /**

@@ -87,6 +87,12 @@ const customConfig: Linter.Config[] = [
       'no-console': 'off',
     },
   },
+  // {
+  //   files: ['**/**/*.vue'],
+  //   rules: {
+  //     'perfectionist/sort-objects': 'off',
+  //   },
+  // },
 ];
 
 export { customConfig };

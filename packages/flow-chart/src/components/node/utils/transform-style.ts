@@ -5,7 +5,7 @@ import type { CustomNodeAllStyleProperty } from '#/components/types/custom-prope
 /**
  * 形状样式处理
  */
-export function formatShapeStyleMapping(
+export function formatSvgShapeStyleMapping(
   properties: CustomNodeAllStyleProperty,
 ) {
   const style: Record<string, any> = {};
@@ -48,7 +48,7 @@ export function formatShapeStyleMapping(
 }
 
 // 形状字体样式处理
-export function formatShapeTextStyleMapping(
+export function formatSvgShapeTextStyleMapping(
   properties: CustomNodeAllStyleProperty,
 ) {
   const style = {} as LogicFlow.TextTheme;

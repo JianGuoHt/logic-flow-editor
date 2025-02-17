@@ -17,6 +17,7 @@
     "@element-plus/icons-vue": "catalog:",
     "@logicflow/core": "catalog:",
     "@logicflow/extension": "catalog:",
+    "@logicflow/vue-node-registry": "catalog:",
     "@vueuse/core": "catalog:",
     "decimal.js": "catalog:",
     "element-plus": "catalog:",

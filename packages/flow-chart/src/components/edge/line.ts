@@ -5,7 +5,7 @@
 import LogicFlow, { LineEdge, LineEdgeModel } from '@logicflow/core';
 import { merge } from 'es-toolkit';
 
-import { formatShapeStyleMapping } from '../node/utils/transform-style';
+import { formatSvgShapeStyleMapping } from '../node/utils/transform-style';
 import { EdgeEndShapeStyle, getActiveEdgeEndShapeType } from './help';
 import { EdgeTypeEnum } from './types';
 
@@ -16,7 +16,7 @@ class ProLineEdgeModel extends LineEdgeModel {
   override getEdgeStyle() {
     const style = super.getEdgeStyle();
     const properties = this.getProperties();
-    return merge(style, formatShapeStyleMapping(properties));
+    return merge(style, formatSvgShapeStyleMapping(properties));
   }
 
   override initEdgeData(data: LogicFlow.EdgeConfig<LogicFlow.PropertiesType>) {

@@ -4,8 +4,8 @@ import { merge } from 'es-toolkit';
 import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
 
 import {
-  formatShapeStyleMapping,
-  formatShapeTextStyleMapping,
+  formatSvgShapeStyleMapping,
+  formatSvgShapeTextStyleMapping,
 } from '../utils/transform-style';
 
 class CusDiamondModel extends DiamondNodeModel {
@@ -15,7 +15,7 @@ class CusDiamondModel extends DiamondNodeModel {
   override getNodeStyle() {
     const style = super.getNodeStyle();
     const properties = this.getProperties();
-    return merge(style, formatShapeStyleMapping(properties));
+    return merge(style, formatSvgShapeStyleMapping(properties));
   }
 
   /**
@@ -25,7 +25,7 @@ class CusDiamondModel extends DiamondNodeModel {
     const style = super.getTextStyle();
     const properties = this.getProperties();
 
-    return merge(style, formatShapeTextStyleMapping(properties));
+    return merge(style, formatSvgShapeTextStyleMapping(properties));
   }
 
   /**

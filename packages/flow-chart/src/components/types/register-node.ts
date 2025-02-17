@@ -7,7 +7,7 @@ import type { Component } from 'vue';
  */
 export type RegisterCusNodeOptions = {
   icon: Component;
-  node: LogicFlow.RegisterConfig;
+  node: Component | LogicFlow.RegisterConfig;
   type: string;
 };
 
