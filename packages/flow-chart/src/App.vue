@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { unmountGlobalLoading } from '@clsy/utils';
 
+import zhCn from 'element-plus/es/locale/lang/zh-cn';
+
 import { Diagram } from './components';
 
 setTimeout(() => {
@@ -10,7 +12,9 @@ setTimeout(() => {
 
 <template>
   <div class="test-body">
-    <Diagram />
+    <ElConfigProvider :locale="zhCn">
+      <Diagram />
+    </ElConfigProvider>
   </div>
 </template>
 

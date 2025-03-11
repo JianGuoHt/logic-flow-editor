@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { RegisterCusNodeGroupOptions } from '../types/register-node';
 
-import LogicFlow from '@logicflow/core';
+import LogicFlow, { BaseNodeModel } from '@logicflow/core';
 import {
   Highlight,
   type ILabelOptions,
@@ -84,6 +84,29 @@ function initLogicFlow() {
     flowId.value = graphModel.flowId!;
   });
 
+  // TODO: 代优化，等官方后续新增禁用编辑的api选项
+  /** 禁用label编辑 */
+  _lf.on('label:click', (e) => {
+    const model = e.model as BaseNodeModel;
+
+    const _label = model.properties._label as
+      | LogicFlow.LabelConfig[]
+      | undefined;
+
+    if (!_label) {
+      return;
+    }
+
+    const formatLabel = _label.map((v) => ({
+      ...v,
+      editable: false,
+    }));
+
+    model.setProperties({
+      _label: formatLabel,
+    });
+  });
+
   _lf.setTheme({
     baseEdge: { strokeWidth: 1 },
     baseNode: { strokeWidth: 1 },
@@ -137,9 +160,23 @@ function setLfMenu(lf: LogicFlow) {
   const menu = lf.extension.menu as Menu;
 
   menu.setMenuConfig({
+    // 边右键菜单(
+    edgeMenu: [
+      {
+        callback: (edge) => {
+          lf.deleteEdge(edge.id);
+        },
+        text: '删除',
+      },
+    ],
+    // 画布右键菜单
+    graphMenu: [],
+    // 节点右键菜单
     nodeMenu: [
       {
-        callback: () => {},
+        callback: (node) => {
+          lf.deleteNode(node.id);
+        },
         text: '删除',
       },
     ],

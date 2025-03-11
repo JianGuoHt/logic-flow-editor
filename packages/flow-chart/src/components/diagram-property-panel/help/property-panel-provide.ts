@@ -7,6 +7,7 @@ import type { InjectionKey } from 'vue';
 type InjectionKeyType = {
   activeNodes: Ref<LogicFlow.NodeData[]>;
   form: Ref<CustomNodeAllStyleProperty>;
+  refreshActiveNodes: () => void;
   setNodeProperties: <K extends keyof CustomNodeAllStyleProperty>(
     key: K,
     value: CustomNodeAllStyleProperty[K],

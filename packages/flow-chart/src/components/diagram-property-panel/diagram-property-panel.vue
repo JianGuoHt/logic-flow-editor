@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type LogicFlow from '@logicflow/core';
+import type { BaseNodeModel } from '@logicflow/core';
 
 import type {
   CustomNodeAllStyleProperty,
@@ -20,7 +21,17 @@ const { propertyPanel, toolbar } = getProjectSetting();
 const lf = useLf();
 
 useLfEvent('node:click', () => onLfNodeActive('node:click'));
-useLfEvent('label:click', () => onLfNodeActive('label:click'));
+useLfEvent('node:dbclick', () => onLfNodeActive('node:dbclick'));
+useLfEvent('label:click', (e) => {
+  onLfNodeActive('label:click');
+
+  /** 防止第二次点击label时，导致取消节点的选中。 */
+  const { nodes } = lf.getSelectElements();
+  if (nodes.length === 0) {
+    lf.selectElementById((e.model as BaseNodeModel).id);
+    setActiveNodes();
+  }
+});
 useLfEvent('selection:selected', () => onLfNodeActive('selection:selected'));
 useLfEvent('blank:click	', onLfNodeInactive);
 useLfEvent('node:mousemove', onLfNodeMove);
@@ -35,7 +46,7 @@ const form = ref<CustomNodeAllStyleProperty>(getNodeDefaultProperties());
  * 节点激活
  */
 function onLfNodeActive(
-  type: 'label:click' | 'node:click' | 'selection:selected',
+  type: 'label:click' | 'node:click' | 'node:dbclick' | 'selection:selected',
 ) {
   const { nodes } = lf.getSelectElements();
 
@@ -54,12 +65,7 @@ function onLfNodeActive(
     }
   }
 
-  isActive.value = nodes.length > 0;
-
-  if (isActive.value) {
-    setActivePropertiesForm();
-    activeNodes.value = lf.getSelectElements().nodes;
-  }
+  setActiveNodes();
 }
 
 /**
@@ -82,6 +88,18 @@ function onLfNodeMove() {
  * 节点拖拽添加
  */
 function onLfNodeDndAdd() {}
+
+/** 获取当前选中的节点  */
+function setActiveNodes() {
+  const { nodes } = lf.getSelectElements();
+
+  isActive.value = nodes.length > 0;
+
+  if (isActive.value) {
+    setActivePropertiesForm();
+    activeNodes.value = lf.getSelectElements().nodes;
+  }
+}
 
 /**
  * 设置属性面板的数值
@@ -176,9 +194,15 @@ function setNodeProperties<K extends keyof CustomNodeAllStyleProperty>(
   });
 }
 
+/** 刷新激活节点 */
+function refreshActiveNodes() {
+  setActiveNodes();
+}
+
 provide(diagramPropertyPanelProvideKey, {
   activeNodes,
   form,
+  refreshActiveNodes,
   setNodeProperties,
 });
 </script>
@@ -222,7 +246,7 @@ provide(diagramPropertyPanelProvideKey, {
 }
 
 ::v-deep(.el-tabs) {
-  --el-color-primary: #333;
+  // --el-color-primary: #333;
 
   .el-tabs__header .el-tabs__item {
     padding: 0 10px;

@@ -18,10 +18,14 @@
     "@logicflow/core": "catalog:",
     "@logicflow/extension": "catalog:",
     "@logicflow/vue-node-registry": "catalog:",
+    "@tinymce/tinymce-vue": "6.0.1",
     "@vueuse/core": "catalog:",
+    "@wangeditor-next/editor": "^5.6.34",
+    "@wangeditor-next/editor-for-vue": "^5.1.14",
     "decimal.js": "catalog:",
     "element-plus": "catalog:",
     "es-toolkit": "catalog:",
+    "tinymce": "7.3.0",
     "vue": "catalog:"
   },
   "devDependencies": {

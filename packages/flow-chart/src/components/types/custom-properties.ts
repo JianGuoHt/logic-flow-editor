@@ -11,22 +11,22 @@ export type CustomNodeCommonStyleProperty = {
   borderType?: 'dashed' | 'dotted' | 'solid';
   /** 边框宽度 */
   borderWidth?: number;
-  /** 文字字体 */
-  fontFamily?: string;
-  /** 文字大小 */
-  fontSize?: number;
-  /** 文字斜体 */
-  fontStyle?: 'italic' | 'normal';
-  /** 文字加粗 */
-  fontWeight?: 'bold' | 'normal';
-  /** 文字对齐方式 */
-  textAlign?: 'end' | 'middle' | 'start';
-  /** 文字背景色 */
-  textBackgroundColor?: string;
-  /** 文字颜色 */
-  textColor?: string;
-  /** 文字行高 */
-  textLineHeight?: number;
+  // /** 文字字体 */
+  // fontFamily?: string;
+  // /** 文字大小 */
+  // fontSize?: number;
+  // /** 文字斜体 */
+  // fontStyle?: 'italic' | 'normal';
+  // /** 文字加粗 */
+  // fontWeight?: 'bold' | 'normal';
+  // /** 文字对齐方式 */
+  // textAlign?: 'end' | 'middle' | 'start';
+  // /** 文字背景色 */
+  // textBackgroundColor?: string;
+  // /** 文字颜色 */
+  // textColor?: string;
+  // /** 文字行高 */
+  // textLineHeight?: number;
   /** x */
   x?: number;
   /** y */

@@ -49,37 +49,37 @@ export function formatSvgShapeStyleMapping(
 
 // 形状字体样式处理
 export function formatSvgShapeTextStyleMapping(
-  properties: CustomNodeAllStyleProperty,
+  _properties: CustomNodeAllStyleProperty,
 ) {
   const style = {} as LogicFlow.TextTheme;
 
-  if (properties.textColor) {
-    style.color = properties.textColor;
-  }
+  // if (properties.textColor) {
+  //   style.color = properties.textColor;
+  // }
 
   // if (properties.fontFamily) {
   //   style.fontFamily = properties.fontFamily;
   // }
 
-  if (properties.fontSize) {
-    style.fontSize = properties.fontSize;
-  }
+  // if (properties.fontSize) {
+  //   style.fontSize = properties.fontSize;
+  // }
 
   // if (properties.textLineHeight) {
   //   style.lineHeight = properties.textLineHeight;
   // }
 
-  if (properties.textAlign) {
-    style.textAnchor = properties.textAlign;
-  }
+  // if (properties.textAlign) {
+  //   style.textAnchor = properties.textAlign;
+  // }
 
-  if (properties.fontWeight) {
-    style.fontWeight = properties.fontWeight;
-  }
+  // if (properties.fontWeight) {
+  //   style.fontWeight = properties.fontWeight;
+  // }
 
-  if (properties.fontStyle) {
-    style.fontStyle = properties.fontStyle;
-  }
+  // if (properties.fontStyle) {
+  //   style.fontStyle = properties.fontStyle;
+  // }
 
   // if (properties.textBackgroundColor) {
   //   style.background = { fill: properties.textBackgroundColor };
