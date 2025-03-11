@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { getProjectSetting } from '#/components/config/project-setting';
+
 import { diagramPropertyPanelProvideKey } from '../../help/property-panel-provide';
 import BaseStylePanelItem from './base-style-panel-item.vue';
 import LabelStylePanelItem from './label-style-panel-item.vue';
 import PositionPanelItem from './position-panel-item.vue';
 // import TextStylePanelItem from './text-style-panel-item.vue';
+
+const projectSetting = getProjectSetting();
 
 const injectDiagramPropertyPanel = inject(diagramPropertyPanelProvideKey);
 
@@ -30,7 +34,11 @@ const isSingleActiveNode = computed(() => activeNode.value.length === 1);
           <el-collapse-item name="base-style" title="样式">
             <BaseStylePanelItem />
           </el-collapse-item>
-          <el-collapse-item name="label-style" title="富文本">
+          <el-collapse-item
+            v-if="projectSetting.plugins.label"
+            name="label-style"
+            title="富文本"
+          >
             <LabelStylePanelItem />
           </el-collapse-item>
           <!-- <el-collapse-item name="text-style" title="文字">

@@ -3,6 +3,7 @@ import { getProjectSetting } from '../config/project-setting';
 import DiagramSize from './components/diagram-size.vue';
 import EdgeEndShapeType from './components/edge-end-shape-type.vue';
 import EdgeType from './components/edge-type.vue';
+import FileMore from './components/file-more.vue';
 import MiniMap from './components/mini-map.vue';
 import SelectionSelectTool from './components/selection-select-tool.vue';
 
@@ -14,7 +15,7 @@ const projectSetting = getProjectSetting();
     :style="{
       height: `${projectSetting.toolbar.height}px`,
     }"
-    class="diagram-toolbar fixed left-0 top-0 flex h-full w-full items-center justify-center gap-4 bg-white"
+    class="diagram-toolbar fixed left-0 top-0 flex h-full w-full items-center justify-between gap-4 bg-white"
     style="
       z-index: 10;
       font-size: 14px;
@@ -22,11 +23,17 @@ const projectSetting = getProjectSetting();
       box-shadow: 0 2px 4px #dad7d7;
     "
   >
-    <SelectionSelectTool />
-    <EdgeType />
-    <EdgeEndShapeType />
-    <MiniMap />
-    <DiagramSize />
+    <div class="flex h-full items-center justify-center gap-4 pl-3">
+      <FileMore />
+    </div>
+    <div class="flex h-full items-center justify-center gap-4">
+      <SelectionSelectTool />
+      <EdgeType />
+      <EdgeEndShapeType />
+      <MiniMap />
+      <DiagramSize />
+    </div>
+    <div class="flex"></div>
   </div>
 </template>
 

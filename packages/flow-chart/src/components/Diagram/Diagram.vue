@@ -1,22 +1,27 @@
 <script setup lang="ts">
+import type { LogicFlow as LF } from '@logicflow/core';
+
 import type { RegisterCusNodeGroupOptions } from '../types/register-node';
 
-import LogicFlow, { BaseNodeModel } from '@logicflow/core';
+import { BaseNodeModel, LogicFlow } from '@logicflow/core';
 import {
-  Highlight,
   type ILabelOptions,
   Label,
   Menu,
   MiniMap,
-  ProximityConnect,
-  type ProximityConnectProps,
   SelectionSelect,
 } from '@logicflow/extension';
 import { getTeleport } from '@logicflow/vue-node-registry';
 
+import testJson from '#/components/assets/json/test.json';
+
 import { getProjectSetting } from '../config/project-setting';
 import DiagramGraphicElementSidebar from '../diagram-graphic-element-sidebar/diagram-graphic-element-sidebar.vue';
 import DiagramPropertyPanel from '../diagram-property-panel/diagram-property-panel.vue';
+import {
+  DiagramRichEditorDialog,
+  type DiagramRichEditorDialogInstance,
+} from '../diagram-rich-editor-dialog';
 import DiagramToolbar from '../diagram-toolbar/diagram-toolbar.vue';
 import { registerCustomEdge } from '../edge';
 import { getActiveEdgeType } from '../edge/help';
@@ -32,6 +37,9 @@ import '@logicflow/extension/es/index.css';
 const projectSetting = getProjectSetting();
 
 const diagramRef = useTemplateRef<HTMLDivElement>('diagramRef');
+const richEditorDialogRef = useTemplateRef<DiagramRichEditorDialogInstance>(
+  'richEditorDialogRef',
+);
 
 const lf = shallowRef<LogicFlow>();
 const TeleportContainer = getTeleport();
@@ -40,7 +48,7 @@ const flowId = ref('');
 const registerCustomNodes = ref<RegisterCusNodeGroupOptions[]>([]);
 
 function initLogicFlow() {
-  lf.value = new LogicFlow({
+  const options = {
     allowResize: true,
     allowRotate: true,
     background: {
@@ -55,14 +63,7 @@ function initLogicFlow() {
       visible: false,
     },
     overlapMode: 1,
-    plugins: [
-      SelectionSelect,
-      Menu,
-      MiniMap,
-      ProximityConnect,
-      Highlight,
-      Label,
-    ],
+    plugins: [SelectionSelect, Menu, MiniMap],
     pluginsOptions: {
       label: {} as ILabelOptions,
       miniMap: {
@@ -71,12 +72,19 @@ function initLogicFlow() {
         leftPosition: 0,
         width: 200,
       },
-      proximityConnect: {
-        distance: 20,
-        enable: true,
-      } as ProximityConnectProps,
+      // proximityConnect: {
+      //   distance: 20,
+      //   enable: true,
+      // } as ProximityConnectProps,
     },
-  });
+    textEdit: false,
+  } as LF.Options;
+
+  if (projectSetting.plugins.label) {
+    options.plugins?.push(Label);
+  }
+
+  lf.value = new LogicFlow(options);
 
   const _lf = unref(lf as unknown as LogicFlow);
 
@@ -84,28 +92,30 @@ function initLogicFlow() {
     flowId.value = graphModel.flowId!;
   });
 
-  // TODO: 代优化，等官方后续新增禁用编辑的api选项
-  /** 禁用label编辑 */
-  _lf.on('label:click', (e) => {
-    const model = e.model as BaseNodeModel;
+  if (projectSetting.plugins.label) {
+    // TODO: 代优化，等官方后续新增禁用编辑的api选项
+    /** 禁用label编辑 */
+    _lf.on('label:click', (e) => {
+      const model = e.model as BaseNodeModel;
 
-    const _label = model.properties._label as
-      | LogicFlow.LabelConfig[]
-      | undefined;
+      const _label = model.properties._label as
+        | LogicFlow.LabelConfig[]
+        | undefined;
 
-    if (!_label) {
-      return;
-    }
+      if (!_label) {
+        return;
+      }
 
-    const formatLabel = _label.map((v) => ({
-      ...v,
-      editable: false,
-    }));
+      const formatLabel = _label.map((v) => ({
+        ...v,
+        editable: false,
+      }));
 
-    model.setProperties({
-      _label: formatLabel,
+      model.setProperties({
+        _label: formatLabel,
+      });
     });
-  });
+  }
 
   _lf.setTheme({
     baseEdge: { strokeWidth: 1 },
@@ -132,6 +142,10 @@ function initLogicFlow() {
   setLfMenu(_lf);
 
   _lf.render({});
+
+  setTimeout(() => {
+    _lf.renderRawData(testJson);
+  }, 2000);
 }
 
 function initOnMittRegister() {
@@ -201,6 +215,7 @@ onMounted(() => {
 provide(lfProvideKey, {
   lf,
   registerCusNodes: registerCustomNodes,
+  richEditDialog: richEditorDialogRef,
 });
 </script>
 
@@ -225,6 +240,8 @@ provide(lfProvideKey, {
         <TeleportContainer :flow-id="flowId" />
       </div>
     </div>
+
+    <DiagramRichEditorDialog v-if="!!lf" ref="richEditorDialogRef" />
   </div>
 </template>
 

@@ -21,7 +21,7 @@ export const getEdgeConfig = () => {
      */
     defaultEdgeLineType: EdgeTypeEnum.PRO_POLYLINE,
 
-    defaultLineWidth: 1,
+    defaultLineWidth: 4,
 
     /**
      * 线的结束端显示样式

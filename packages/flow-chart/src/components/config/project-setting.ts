@@ -3,6 +3,10 @@
  */
 export function getProjectSetting() {
   return {
+    plugins: {
+      label: false,
+    },
+
     propertyPanel: {
       width: 260,
     },

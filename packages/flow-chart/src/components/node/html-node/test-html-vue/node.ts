@@ -16,6 +16,7 @@ class VueHtmlNodeModel extends cusVueHtml.model {
     this.setProperties({
       height: 500,
       width: 500,
+      ...data.properties,
     });
   }
 }

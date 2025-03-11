@@ -1,7 +1,7 @@
 import type { App, Component, VNode } from 'vue';
 
 import { HtmlNode, HtmlNodeModel, type IHtmlNodeProps } from '@logicflow/core';
-import { merge } from 'es-toolkit';
+import { merge } from 'es-toolkit/compat';
 
 import {
   getNodeCustomDefaultProperties,
@@ -28,10 +28,14 @@ class CusHtmlNodeModel extends HtmlNodeModel {
     super.initNodeData(data);
     // this.width = 50;
     // this.height = 50;
-    this.setProperties({
-      ...getNodeCustomDefaultProperties(),
-      ...getRectNodeDefaultProperties(),
-    });
+    this.setProperties(
+      merge(
+        {},
+        getNodeCustomDefaultProperties(),
+        getRectNodeDefaultProperties(),
+        data.properties,
+      ),
+    );
   }
 
   override setAttributes(): void {

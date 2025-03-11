@@ -1,7 +1,14 @@
 /**
- * 自定义节点样式通用属性
+ * 自定义通用属性
  */
-export type CustomNodeCommonStyleProperty = {
+export type CustomNodeCommonProperty = {
+  x?: number;
+  /** y */
+  y?: number;
+};
+
+/** 自定义节点样式 */
+export type CusNodeStyleProperty = {
   // [key: string]: any;
   /** 背景色 */
   backgroundColor?: string;
@@ -28,9 +35,6 @@ export type CustomNodeCommonStyleProperty = {
   // /** 文字行高 */
   // textLineHeight?: number;
   /** x */
-  x?: number;
-  /** y */
-  y?: number;
 };
 
 /**
@@ -54,6 +58,13 @@ export type CustomCircleNodeProperty = {
   ry?: number;
 };
 
-export type CustomNodeAllStyleProperty = CustomCircleNodeProperty &
-  CustomNodeCommonStyleProperty &
+export type CustomNodeAllStyleProperty =
+  | CustomCircleNodeProperty
+  | CustomNodeCommonProperty
+  | CustomRectNodeProperty;
+
+export type CustomNodeProperty = {
+  _cus_style: CusNodeStyleProperty;
+} & CustomCircleNodeProperty &
+  CustomNodeCommonProperty &
   CustomRectNodeProperty;

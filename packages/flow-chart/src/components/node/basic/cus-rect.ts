@@ -1,5 +1,5 @@
 import { RectNode, RectNodeModel } from '@logicflow/core';
-import { merge } from 'es-toolkit';
+import { merge } from 'es-toolkit/compat';
 
 import {
   getNodeCustomDefaultProperties,
@@ -39,10 +39,14 @@ class CusRectModel extends RectNodeModel {
     super.initNodeData(data);
     // this.width = 50;
     // this.height = 50;
-    this.setProperties({
-      ...getNodeCustomDefaultProperties(),
-      ...getRectNodeDefaultProperties(),
-    });
+    this.setProperties(
+      merge(
+        {},
+        getNodeCustomDefaultProperties(),
+        getRectNodeDefaultProperties(),
+        data.properties,
+      ),
+    );
   }
 }
 

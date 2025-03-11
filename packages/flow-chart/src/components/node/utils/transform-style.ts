@@ -1,41 +1,44 @@
 import type LogicFlow from '@logicflow/core';
 
-import type { CustomNodeAllStyleProperty } from '#/components/types/custom-properties';
+import type {
+  CustomNodeAllStyleProperty,
+  CustomNodeProperty,
+} from '#/components/types/custom-properties';
 
 /**
  * 形状样式处理
  */
 export function formatSvgShapeStyleMapping(
-  properties: CustomNodeAllStyleProperty,
+  properties: Partial<CustomNodeProperty>,
 ) {
   const style: Record<string, any> = {};
 
   // 背景色
-  if (properties.backgroundColor) {
-    style.fill = properties.backgroundColor;
+  if (properties._cus_style?.backgroundColor) {
+    style.fill = properties._cus_style?.backgroundColor;
   }
 
   // 边框颜色
-  if (properties.borderColor) {
-    style.stroke = properties.borderColor;
+  if (properties._cus_style?.borderColor) {
+    style.stroke = properties._cus_style?.borderColor;
   }
 
   // 边框宽度
-  if (properties.borderWidth) {
-    style.strokeWidth = properties.borderWidth;
+  if (properties._cus_style?.borderWidth) {
+    style.strokeWidth = properties._cus_style?.borderWidth;
   }
 
   // 形状边框样式
-  if (properties.borderType) {
-    if (properties.borderType === 'solid') {
+  if (properties._cus_style?.borderType) {
+    if (properties._cus_style.borderType === 'solid') {
       style.strokeDashArray = '0';
       style.strokeDasharray = '0';
     }
-    if (properties.borderType === 'dashed') {
+    if (properties._cus_style.borderType === 'dashed') {
       style.strokeDashArray = '3 3';
       style.strokeDasharray = '3 3';
     }
-    if (properties.borderType === 'dotted') {
+    if (properties._cus_style.borderType === 'dotted') {
       style.strokeDashArray = '1 1';
       style.strokeDasharray = '1 1';
     }

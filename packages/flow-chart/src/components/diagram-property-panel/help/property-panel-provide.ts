@@ -1,16 +1,17 @@
 import type LogicFlow from '@logicflow/core';
 
-import type { CustomNodeAllStyleProperty } from '#/components/types/custom-properties';
+import type { CustomNodeProperty } from '#/components/types/custom-properties';
+import type { DeepObjectKeys } from '#/components/types/help';
 
 import type { InjectionKey } from 'vue';
 
 type InjectionKeyType = {
   activeNodes: Ref<LogicFlow.NodeData[]>;
-  form: Ref<CustomNodeAllStyleProperty>;
+  form: Ref<CustomNodeProperty>;
   refreshActiveNodes: () => void;
-  setNodeProperties: <K extends keyof CustomNodeAllStyleProperty>(
-    key: K,
-    value: CustomNodeAllStyleProperty[K],
+  setNodeProperties: (
+    key: DeepObjectKeys<CustomNodeProperty>,
+    value: any,
   ) => void;
 };
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CustomNodeCommonStyleProperty } from '#/components/types/custom-properties';
+import type { CusNodeStyleProperty } from '#/components/types/custom-properties';
 
 import { useLf } from '#/components/hooks/useLf';
 import { getActiveNodeModelType } from '#/components/utils/node';
@@ -71,32 +71,32 @@ const isEllipse = computed(() => {
 
     <ElFormItem label="背景色">
       <ElColorPicker
-        v-model="form.backgroundColor"
+        v-model="form._cus_style.backgroundColor"
         show-alpha
-        @change="(v) => setNodeProperties('backgroundColor', v!)"
+        @change="(v) => setNodeProperties('_cus_style.backgroundColor', v!)"
       />
     </ElFormItem>
     <ElFormItem label="边框颜色">
       <ElColorPicker
-        v-model="form.borderColor"
+        v-model="form._cus_style.borderColor"
         show-alpha
-        @change="(v) => setNodeProperties('borderColor', v!)"
+        @change="(v) => setNodeProperties('_cus_style.borderColor', v!)"
       />
     </ElFormItem>
     <ElFormItem label="边框宽度">
       <ElInputNumber
-        v-model="form.borderWidth"
+        v-model="form._cus_style.borderWidth"
         :min="0"
         :step="1"
-        @change="(v) => setNodeProperties('borderWidth', v)"
+        @change="(v) => setNodeProperties('_cus_style.borderWidth', v)"
       />
     </ElFormItem>
     <ElFormItem label="边框类型">
       <ElSelect
-        v-model="form.borderType"
+        v-model="form._cus_style.borderType"
         @change="
-          (v: CustomNodeCommonStyleProperty['borderType']) =>
-            setNodeProperties('borderType', v)
+          (v: CusNodeStyleProperty['borderType']) =>
+            setNodeProperties('_cus_style.borderType', v)
         "
       >
         <ElOption label="实线" value="solid" />

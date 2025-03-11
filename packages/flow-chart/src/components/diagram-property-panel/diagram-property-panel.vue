@@ -2,12 +2,11 @@
 import type LogicFlow from '@logicflow/core';
 import type { BaseNodeModel } from '@logicflow/core';
 
-import type {
-  CustomNodeAllStyleProperty,
-  CustomNodeCommonStyleProperty,
-} from '../types/custom-properties';
+import type { CustomNodeProperty } from '../types/custom-properties';
+import type { DeepObjectKeys } from '../types/help';
 
-import { isNil, omit } from 'es-toolkit';
+import { isNil } from 'es-toolkit';
+import { merge, set } from 'es-toolkit/compat';
 
 import { getProjectSetting } from '../config/project-setting';
 import { getNodeDefaultProperties } from '../help/reset-custom-properties';
@@ -16,31 +15,35 @@ import { useLfEvent } from '../hooks/useLfEvent';
 import StylePanel from './components/style-panel/style-panel.vue';
 import { diagramPropertyPanelProvideKey } from './help/property-panel-provide';
 
-const { propertyPanel, toolbar } = getProjectSetting();
+const { plugins, propertyPanel, toolbar } = getProjectSetting();
 
 const lf = useLf();
 
 useLfEvent('node:click', () => onLfNodeActive('node:click'));
 useLfEvent('node:dbclick', () => onLfNodeActive('node:dbclick'));
-useLfEvent('label:click', (e) => {
-  onLfNodeActive('label:click');
 
-  /** 防止第二次点击label时，导致取消节点的选中。 */
-  const { nodes } = lf.getSelectElements();
-  if (nodes.length === 0) {
-    lf.selectElementById((e.model as BaseNodeModel).id);
-    setActiveNodes();
-  }
-});
 useLfEvent('selection:selected', () => onLfNodeActive('selection:selected'));
 useLfEvent('blank:click	', onLfNodeInactive);
 useLfEvent('node:mousemove', onLfNodeMove);
 useLfEvent('node:dnd-add', onLfNodeDndAdd);
 
+if (plugins.label) {
+  useLfEvent('label:click', (e) => {
+    onLfNodeActive('label:click');
+
+    /** 防止第二次点击label时，导致取消节点的选中。 */
+    const { nodes } = lf.getSelectElements();
+    if (nodes.length === 0) {
+      lf.selectElementById((e.model as BaseNodeModel).id);
+      setActiveNodes();
+    }
+  });
+}
+
 const isActive = ref(false);
 const activePane = ref('style');
 const activeNodes = ref<LogicFlow.NodeData[]>([]);
-const form = ref<CustomNodeAllStyleProperty>(getNodeDefaultProperties());
+const form = ref<CustomNodeProperty>(getNodeDefaultProperties());
 
 /**
  * 节点激活
@@ -126,34 +129,12 @@ function setActivePropertiesForm() {
     }
 
     const { properties, x, y } = node;
-    // 需要忽略从属性上获取数值的属性
-    const omitPropertiesKeys = [
-      'x',
-      'y',
-    ] as (keyof CustomNodeAllStyleProperty)[];
+
+    // 无法获取节点属性, 属性面板重置为默认值
+    form.value = properties ? merge(defaultForm, properties) : defaultForm;
 
     form.value.x = x;
     form.value.y = y;
-
-    if (!properties) {
-      // 无法获取节点属性, 属性面板重置为默认值
-      form.value = omit(defaultForm, omitPropertiesKeys);
-      return;
-    }
-
-    Object.keys(form.value).forEach((key) => {
-      if (
-        omitPropertiesKeys.includes(key as keyof CustomNodeCommonStyleProperty)
-      ) {
-        return;
-      }
-
-      const value = isNil(properties[key])
-        ? defaultForm[key as keyof CustomNodeCommonStyleProperty] || null
-        : properties[key];
-
-      Reflect.set(form.value, key, value);
-    });
   }
 }
 
@@ -162,16 +143,22 @@ function setActivePropertiesForm() {
  * @param key
  * @param value
  */
-function setNodeProperties<K extends keyof CustomNodeAllStyleProperty>(
-  key: K,
-  value: CustomNodeAllStyleProperty[K],
+function setNodeProperties(
+  key: DeepObjectKeys<CustomNodeProperty>,
+  value: any,
 ) {
   const { nodes } = lf.getSelectElements();
 
   nodes.forEach((node) => {
-    lf.setProperties(node.id, {
-      [key]: value,
-    });
+    const properties = lf.getProperties(node.id);
+
+    if (!properties) {
+      return;
+    }
+
+    set(properties, key, value);
+
+    lf.setProperties(node.id, properties);
 
     // 处理特殊属性
     if (key === 'x' || key === 'y') {

@@ -1,5 +1,5 @@
 import { DiamondNode, DiamondNodeModel } from '@logicflow/core';
-import { merge } from 'es-toolkit';
+import { merge } from 'es-toolkit/compat';
 
 import { getNodeCustomDefaultProperties } from '#/components/help/reset-custom-properties';
 
@@ -36,9 +36,9 @@ class CusDiamondModel extends DiamondNodeModel {
     this.rx = 35;
     this.ry = 35;
 
-    this.setProperties({
-      ...getNodeCustomDefaultProperties(),
-    });
+    this.setProperties(
+      merge({}, getNodeCustomDefaultProperties(), data.properties),
+    );
   }
 }
 

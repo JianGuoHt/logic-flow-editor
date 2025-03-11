@@ -1,5 +1,5 @@
 import { EllipseNode, EllipseNodeModel } from '@logicflow/core';
-import { merge } from 'es-toolkit';
+import { merge } from 'es-toolkit/compat';
 
 import {
   getCircleNodeDefaultProperties,
@@ -40,10 +40,14 @@ class CusEllipseModel extends EllipseNodeModel {
   override initNodeData(data: any) {
     super.initNodeData(data);
 
-    this.setProperties({
-      ...getNodeCustomDefaultProperties(),
-      ...getCircleNodeDefaultProperties(),
-    });
+    this.setProperties(
+      merge(
+        {},
+        getNodeCustomDefaultProperties(),
+        getCircleNodeDefaultProperties(),
+        data.properties,
+      ),
+    );
   }
 }
 
