@@ -1,5 +1,6 @@
 import type LogicFlow from '@logicflow/core';
 
+import { registerDynamicGroupNodes } from './dynamic-group-node';
 import { registerArrowNodes } from './svg-nodes/arrow';
 import { registerBasicNodes } from './svg-nodes/basic';
 import { registerPathNodes } from './svg-nodes/path';
@@ -11,4 +12,5 @@ export const registerCustomElement = (lf: LogicFlow) => {
   registerArrowNodes(lf);
   registerBasicNodes(lf);
   registerPathNodes(lf);
+  registerDynamicGroupNodes(lf);
 };

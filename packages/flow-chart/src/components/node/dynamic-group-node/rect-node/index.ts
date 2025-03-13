@@ -1,8 +1,8 @@
 import Icon from './icon.vue';
-import node from './node.vue';
+import node from './node';
 
 export default {
   icon: Icon,
   node,
-  type: 'cus-vue-progress-node',
+  type: node.type,
 };

@@ -3,8 +3,15 @@ import type { LogicFlow as LF } from '@logicflow/core';
 
 import type { RegisterCusNodeGroupOptions } from '../types/register-node';
 
-import { BaseNodeModel, LogicFlow } from '@logicflow/core';
 import {
+  BaseNodeModel,
+  getEdgeOutline,
+  getNodeOutline,
+  LogicFlow,
+  OverlapMode,
+} from '@logicflow/core';
+import {
+  DynamicGroup,
   type ILabelOptions,
   Label,
   Menu,
@@ -27,6 +34,7 @@ import { registerCustomEdge } from '../edge';
 import { getActiveEdgeType } from '../edge/help';
 import { mittEmitter } from '../events/mitt';
 import { registerCustomElement } from '../node';
+import { rectDynamicGroupNode } from '../node/dynamic-group-node';
 import { registerHtmlNodes } from '../node/html-node';
 import { registerVueNodes } from '../node/vue-node';
 import { lfProvideKey } from '../types/lf-token';
@@ -62,8 +70,8 @@ function initLogicFlow() {
       size: 5,
       visible: false,
     },
-    overlapMode: 1,
-    plugins: [SelectionSelect, Menu, MiniMap],
+    overlapMode: OverlapMode.INCREASE,
+    plugins: [SelectionSelect, Menu, MiniMap, DynamicGroup],
     pluginsOptions: {
       label: {} as ILabelOptions,
       miniMap: {
@@ -143,9 +151,12 @@ function initLogicFlow() {
 
   _lf.render({});
 
-  setTimeout(() => {
-    _lf.renderRawData(testJson);
-  }, 2000);
+  // eslint-disable-next-line no-constant-condition
+  if (false) {
+    setTimeout(() => {
+      _lf.renderRawData(testJson);
+    }, 2000);
+  }
 }
 
 function initOnMittRegister() {
@@ -194,6 +205,65 @@ function setLfMenu(lf: LogicFlow) {
         text: '删除',
       },
     ],
+  });
+
+  menu.setMenuByType({
+    menu: [
+      {
+        callback: (elements) => {
+          const { selectElements } = lf.graphModel;
+          if (selectElements.size <= 1) return;
+
+          let x = Number.MAX_SAFE_INTEGER;
+          let y = Number.MAX_SAFE_INTEGER;
+          let x1 = Number.MIN_SAFE_INTEGER;
+          let y1 = Number.MIN_SAFE_INTEGER;
+
+          selectElements.forEach((element) => {
+            let outline = {
+              x: 0,
+              x1: 0,
+              y: 0,
+              y1: 0,
+            };
+
+            if (element.BaseType === 'node') outline = getNodeOutline(element)!;
+            if (element.BaseType === 'edge') outline = getEdgeOutline(element)!;
+
+            x = Math.min(x, outline.x);
+            y = Math.min(y, outline.y);
+            x1 = Math.max(x1, outline.x1);
+            y1 = Math.max(y1, outline.y1);
+          });
+
+          const offset = 20;
+          const width = x1 - x + offset * 2;
+          const height = y1 - y + offset * 2;
+
+          const group = lf.addNode({
+            // 默认样式
+            properties: {
+              backgroundColor: '#fff',
+              borderStyle: 'dashed',
+              height,
+              width,
+            },
+            type: rectDynamicGroupNode.type,
+            x: x - offset + width / 2,
+            y: y - offset + height / 2,
+          });
+
+          // 仅需要将 node 添加至 group
+          elements.nodes.forEach((node: any) => {
+            group.addChild(node.id);
+          });
+          // 取消选中
+          lf.clearSelectElements();
+        },
+        text: '组合',
+      },
+    ],
+    type: 'lf:defaultSelectionMenu',
   });
 }
 

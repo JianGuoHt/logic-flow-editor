@@ -1,7 +1,6 @@
-import { RectNode, RectNodeModel } from '@logicflow/core';
+import { dynamicGroup } from '@logicflow/extension';
 import { merge } from 'es-toolkit/compat';
 
-import { getNodeConfig } from '#/components/config/node';
 import {
   getNodeCustomDefaultProperties,
   getRectNodeDefaultProperties,
@@ -12,7 +11,7 @@ import {
   formatSvgShapeTextStyleMapping,
 } from '../utils/transform-style';
 
-class CusRectModel extends RectNodeModel {
+class CusDynamicGroupModel extends dynamicGroup.model {
   /**
    * 支持重写 获取当前节点样式
    */
@@ -40,7 +39,6 @@ class CusRectModel extends RectNodeModel {
     super.initNodeData(data);
     // this.width = 50;
     // this.height = 50;
-    this.autoToFront = getNodeConfig().autoToFront;
     this.setProperties(
       merge(
         {},
@@ -52,10 +50,10 @@ class CusRectModel extends RectNodeModel {
   }
 }
 
-class CusRectView extends RectNode {}
+class CusDynamicGroupView extends dynamicGroup.view {}
 
 export default {
-  model: CusRectModel,
-  type: 'cus-rect',
-  view: CusRectView,
+  model: CusDynamicGroupModel,
+  type: 'cus-dynamic-group',
+  view: CusDynamicGroupView,
 };

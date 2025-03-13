@@ -3,6 +3,7 @@ import type { App, Component, VNode } from 'vue';
 import { HtmlNode, HtmlNodeModel, type IHtmlNodeProps } from '@logicflow/core';
 import { merge } from 'es-toolkit/compat';
 
+import { getNodeConfig } from '#/components/config/node';
 import {
   getNodeCustomDefaultProperties,
   getRectNodeDefaultProperties,
@@ -28,6 +29,8 @@ class CusHtmlNodeModel extends HtmlNodeModel {
     super.initNodeData(data);
     // this.width = 50;
     // this.height = 50;
+    this.autoToFront = getNodeConfig().autoToFront;
+
     this.setProperties(
       merge(
         {},
