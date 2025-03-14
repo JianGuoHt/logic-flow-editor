@@ -11,8 +11,10 @@ function handleChangeState() {
 
   if (active.value) {
     lf.openSelectionSelect();
+    localStorage.setItem('LF_SELECTION_SELECT', 'true');
   } else {
     lf.closeSelectionSelect();
+    localStorage.setItem('LF_SELECTION_SELECT', 'false');
   }
 }
 </script>

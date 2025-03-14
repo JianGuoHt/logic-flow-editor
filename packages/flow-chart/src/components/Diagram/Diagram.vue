@@ -53,8 +53,12 @@ const lf = shallowRef<LogicFlow>();
 const TeleportContainer = getTeleport();
 const flowId = ref('');
 
+/** space 键是否按下 */
+const spaceKeyDown = ref(false);
+
 const registerCustomNodes = ref<RegisterCusNodeGroupOptions[]>([]);
 
+/** 初始化 LogicFlow */
 function initLogicFlow() {
   const options = {
     allowResize: true,
@@ -71,6 +75,51 @@ function initLogicFlow() {
       visible: false,
     },
     history: true,
+    keyboard: {
+      enabled: true,
+      shortcuts: [
+        {
+          callback: () => {
+            if (spaceKeyDown.value) {
+              return;
+            }
+
+            const lfDom = document.querySelector(
+              '.lf-canvas-overlay',
+            ) as SVGAElement;
+
+            lfDom.addEventListener('mousedown', onSpaceAndMousedown);
+            lfDom.addEventListener('mouseup', onSpaceAndMouseup);
+
+            spaceKeyDown.value = true;
+
+            lf.value?.closeSelectionSelect();
+
+            lfDom.style.cursor = 'grab';
+          },
+          keys: ['space'],
+        },
+        {
+          action: 'keyup',
+          callback: () => {
+            const lfDom = document.querySelector(
+              '.lf-canvas-overlay',
+            ) as SVGAElement;
+
+            lfDom.removeEventListener('mousedown', onSpaceAndMousedown);
+            lfDom.removeEventListener('mouseup', onSpaceAndMouseup);
+
+            if (localStorage.getItem('LF_SELECTION_SELECT') === 'true') {
+              lf.value?.openSelectionSelect();
+            }
+
+            spaceKeyDown.value = false;
+            lfDom.style.cursor = 'default';
+          },
+          keys: ['space'],
+        },
+      ],
+    },
     overlapMode: OverlapMode.INCREASE,
     plugins: [SelectionSelect, Menu, MiniMap, DynamicGroup],
     pluginsOptions: {
@@ -158,8 +207,35 @@ function initLogicFlow() {
       _lf.renderRawData(testJson);
     }, 2000);
   }
+
+  // 修改鼠标样式
+  const lfDom = document.querySelector('.lf-canvas-overlay') as SVGAElement;
+  lfDom.addEventListener('mousedown', () => {
+    if (spaceKeyDown.value) {
+      return;
+    }
+
+    lfDom.style.cursor = 'grabbing';
+  });
+
+  lfDom.addEventListener('mouseup', () => {
+    lfDom.style.cursor = 'default';
+  });
 }
 
+/** 空格和鼠标按下 */
+function onSpaceAndMousedown() {
+  const lfDom = document.querySelector('.lf-canvas-overlay') as SVGAElement;
+  lfDom.style.cursor = 'grabbing';
+}
+
+/** 空格和鼠标抬起 */
+function onSpaceAndMouseup() {
+  const lfDom = document.querySelector('.lf-canvas-overlay') as SVGAElement;
+  lfDom.style.cursor = 'grab';
+}
+
+/** 注册自定义节点 */
 function initOnMittRegister() {
   mittEmitter.on('register', (v) => {
     let data: RegisterCusNodeGroupOptions[] = [];
@@ -282,6 +358,7 @@ function setLfMenu(lf: LogicFlow) {
   });
 }
 
+/** 拖拽图形进入画板 */
 function onDragInNode(type: string) {
   const _lf = unref(lf);
 

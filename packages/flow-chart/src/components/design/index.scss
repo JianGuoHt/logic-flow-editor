@@ -1,6 +1,12 @@
 @use './lf-menu';
 @use './lf-mini-map';
 
+.lf-rotate-control {
+  cursor:
+    url('../assets/images/rotate.png') 8 8,
+    auto;
+}
+
 .text-danger {
   color: var(--el-color-danger);
 }
