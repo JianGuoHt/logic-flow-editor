@@ -1,7 +1,10 @@
+import type { CustomNodeLayerProperty } from '#/components/types/custom-properties';
+
 /**
  * 平行四边形
  */
 import { h } from '@logicflow/core';
+import { merge } from 'es-toolkit';
 
 import { CusRect } from '../../../basic';
 import { getShapeImage } from '../../../utils/shape-image';
@@ -11,6 +14,15 @@ class ParallelogramNodeModel extends CusRect.model {
     super.initNodeData(data);
     this.width = 100;
     this.height = 60;
+
+    this.setProperties(
+      merge(
+        {
+          _cus_layer: { name: '平行四边形' } as CustomNodeLayerProperty,
+        },
+        data.properties,
+      ),
+    );
   }
 }
 

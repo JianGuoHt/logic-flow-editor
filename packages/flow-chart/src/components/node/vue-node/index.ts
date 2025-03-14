@@ -10,7 +10,10 @@ export function registerVueNodes(lf: LogicFlow) {
   const vueNodes = [richText];
 
   vueNodes.forEach((node) => {
-    register({ component: node.node, type: node.type }, lf);
+    register(
+      { component: node.node, effect: node.effect, type: node.type },
+      lf,
+    );
   });
 
   mittEmitter.emit('register', {
@@ -19,3 +22,5 @@ export function registerVueNodes(lf: LogicFlow) {
     type: 'vue-nodes',
   });
 }
+
+export { richText };

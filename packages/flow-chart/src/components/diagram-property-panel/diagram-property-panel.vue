@@ -2,29 +2,27 @@
 import type LogicFlow from '@logicflow/core';
 import type { BaseNodeModel } from '@logicflow/core';
 
-import type { CustomNodeProperty } from '../types/custom-properties';
-import type { DeepObjectKeys } from '../types/help';
-
-import { isNil } from 'es-toolkit';
-import { merge, set } from 'es-toolkit/compat';
-
 import { getProjectSetting } from '../config/project-setting';
-import { getNodeDefaultProperties } from '../help/reset-custom-properties';
 import { useLf } from '../hooks/useLf';
 import { useLfEvent } from '../hooks/useLfEvent';
+import LayerPanel from './components/layer-panel/layer-panel.vue';
 import StylePanel from './components/style-panel/style-panel.vue';
 import { diagramPropertyPanelProvideKey } from './help/property-panel-provide';
 
-const { plugins, propertyPanel, toolbar } = getProjectSetting();
-
 const lf = useLf();
 
+const { plugins, propertyPanel, toolbar } = getProjectSetting();
+const isActive = ref(false);
+const activePane = ref('layer');
+
+const activeNodes = ref<LogicFlow.NodeData[]>([]);
+
 useLfEvent('node:click', () => onLfNodeActive('node:click'));
+useLfEvent('layer-tree:node-click', () => onLfNodeActive('node:click'));
 useLfEvent('node:dbclick', () => onLfNodeActive('node:dbclick'));
 
 useLfEvent('selection:selected', () => onLfNodeActive('selection:selected'));
 useLfEvent('blank:click	', onLfNodeInactive);
-useLfEvent('node:mousemove', onLfNodeMove);
 useLfEvent('node:dnd-add', onLfNodeDndAdd);
 
 if (plugins.label) {
@@ -39,11 +37,6 @@ if (plugins.label) {
     }
   });
 }
-
-const isActive = ref(false);
-const activePane = ref('style');
-const activeNodes = ref<LogicFlow.NodeData[]>([]);
-const form = ref<CustomNodeProperty>(getNodeDefaultProperties());
 
 /**
  * 节点激活
@@ -79,15 +72,6 @@ function onLfNodeInactive() {
 }
 
 /**
- * 节点移动
- */
-function onLfNodeMove() {
-  if (isActive.value) {
-    setActivePropertiesForm();
-  }
-}
-
-/**
  * 节点拖拽添加
  */
 function onLfNodeDndAdd() {}
@@ -99,86 +83,8 @@ function setActiveNodes() {
   isActive.value = nodes.length > 0;
 
   if (isActive.value) {
-    setActivePropertiesForm();
     activeNodes.value = lf.getSelectElements().nodes;
   }
-}
-
-/**
- * 设置属性面板的数值
- */
-function setActivePropertiesForm() {
-  const { nodes } = lf.getSelectElements();
-  const defaultForm = getNodeDefaultProperties();
-
-  if (nodes.length === 0) {
-    return;
-  }
-
-  if (nodes.length > 1) {
-    // 框选多个节点时，属性面板全部重置为默认值
-    form.value = defaultForm;
-    return;
-  }
-
-  if (nodes.length === 1) {
-    // 框选一个节点时，属性面板显示当前节点的属性
-    const node = nodes[0];
-    if (!node) {
-      return;
-    }
-
-    const { properties, x, y } = node;
-
-    // 无法获取节点属性, 属性面板重置为默认值
-    form.value = properties ? merge(defaultForm, properties) : defaultForm;
-
-    form.value.x = x;
-    form.value.y = y;
-  }
-}
-
-/**
- * 设置激活节点属性
- * @param key
- * @param value
- */
-function setNodeProperties(
-  key: DeepObjectKeys<CustomNodeProperty>,
-  value: any,
-) {
-  const { nodes } = lf.getSelectElements();
-
-  nodes.forEach((node) => {
-    const properties = lf.getProperties(node.id);
-
-    if (!properties) {
-      return;
-    }
-
-    set(properties, key, value);
-
-    lf.setProperties(node.id, properties);
-
-    // 处理特殊属性
-    if (key === 'x' || key === 'y') {
-      const nodeModel = lf.getNodeModelById(node.id);
-      let _value = Number(value);
-
-      if (nodeModel && !Number.isNaN(_value)) {
-        if (key === 'x') {
-          _value = isNil(_value) ? node.x : _value;
-          nodeModel.moveTo(_value, node.y);
-        }
-        if (key === 'y' && !Number.isNaN(_value)) {
-          _value = isNil(_value) ? node.y : _value;
-          nodeModel.moveTo(node.x, _value);
-        }
-      }
-    }
-
-    setActivePropertiesForm();
-  });
 }
 
 /** 刷新激活节点 */
@@ -188,15 +94,12 @@ function refreshActiveNodes() {
 
 provide(diagramPropertyPanelProvideKey, {
   activeNodes,
-  form,
   refreshActiveNodes,
-  setNodeProperties,
 });
 </script>
 
 <template>
   <div
-    :class="[isActive ? 'is-active' : '']"
     :style="{
       '--property-panel-width': `${propertyPanel.width}px`,
       width: `var(--property-panel-width)`,
@@ -204,20 +107,16 @@ provide(diagramPropertyPanelProvideKey, {
       top: `${toolbar.height}px`,
       zIndex: 9,
     }"
-    class="diagram-property-panel fixed right-0 bg-white pl-2"
+    class="diagram-property-panel is-active fixed right-0 bg-white pl-2"
   >
-    <ElForm
-      :model="form"
-      class="h-full"
-      label-position="left"
-      label-width="90px"
-    >
-      <el-tabs v-model="activePane" class="h-full">
-        <el-tab-pane label="外观" name="style">
-          <StylePanel />
-        </el-tab-pane>
-      </el-tabs>
-    </ElForm>
+    <el-tabs v-model="activePane" class="h-full">
+      <el-tab-pane label="图层" name="layer">
+        <LayerPanel />
+      </el-tab-pane>
+      <el-tab-pane v-if="isActive" label="外观" name="style">
+        <StylePanel />
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 

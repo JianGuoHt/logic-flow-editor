@@ -1,8 +1,23 @@
+import type { CustomNodeLayerProperty } from '#/components/types/custom-properties';
+
 import { h } from '@logicflow/core';
+import { merge } from 'es-toolkit';
 
 import { CusRect } from '../../../basic';
 
-class RectNodeModel extends CusRect.model {}
+class RectNodeModel extends CusRect.model {
+  override initNodeData(data: any): void {
+    super.initNodeData(data);
+    this.setProperties(
+      merge(
+        {
+          _cus_layer: { name: '正方形' } as CustomNodeLayerProperty,
+        },
+        data.properties,
+      ),
+    );
+  }
+}
 
 class RectNodeView extends CusRect.view {
   override getShape() {

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useLf } from '#/components/hooks/useLf';
 
-import { diagramPropertyPanelProvideKey } from '../../help/property-panel-provide';
+import { diagramPropertyStylePanelProvideKey } from '../../help/style-panel-provide';
 
-const injectDiagramPropertyPanel = inject(diagramPropertyPanelProvideKey);
+const injectStylePanel = inject(diagramPropertyStylePanelProvideKey);
 const lf = useLf();
 
-const form = injectDiagramPropertyPanel!.form;
+const form = injectStylePanel!.form;
 
-const setNodeProperties = injectDiagramPropertyPanel!.setNodeProperties;
+const setNodeProperties = injectStylePanel!.setNodeProperties;
 
 function handleSetTop(zIndex: 'bottom' | 'top') {
   const { nodes } = lf.getSelectElements();

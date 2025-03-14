@@ -1,7 +1,10 @@
+import type { CustomNodeLayerProperty } from '#/components/types/custom-properties';
+
 /**
  * 上箭头
  */
 import { h } from '@logicflow/core';
+import { merge } from 'es-toolkit/compat';
 
 import { CusRect } from '../../../basic';
 import { getShapeImage } from '../../../utils/shape-image';
@@ -11,6 +14,15 @@ class UpArrowNodeModel extends CusRect.model {
     super.initNodeData(data);
     this.width = 50;
     this.height = 80;
+
+    this.setProperties(
+      merge(
+        {
+          _cus_layer: { name: '上箭头' } as CustomNodeLayerProperty,
+        },
+        data.properties,
+      ),
+    );
   }
 }
 

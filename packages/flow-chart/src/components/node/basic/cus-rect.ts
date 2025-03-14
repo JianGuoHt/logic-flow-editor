@@ -1,3 +1,5 @@
+import type { CustomNodeProperty } from '#/components/types/custom-properties';
+
 import { RectNode, RectNodeModel } from '@logicflow/core';
 import { merge } from 'es-toolkit/compat';
 
@@ -12,7 +14,7 @@ import {
   formatSvgShapeTextStyleMapping,
 } from '../utils/transform-style';
 
-class CusRectModel extends RectNodeModel {
+class CusRectModel extends RectNodeModel<CustomNodeProperty> {
   /**
    * 支持重写 获取当前节点样式
    */

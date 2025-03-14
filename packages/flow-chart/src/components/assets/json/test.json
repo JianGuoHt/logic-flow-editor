@@ -1,157 +1,106 @@
 {
   "nodes": [
     {
-      "id": "71fbdce4-824f-4647-a0a0-b264c2a602b5",
-      "type": "cus-vue-rich-text-node",
-      "x": 495,
-      "y": 320,
+      "id": "cba6f32f-a18a-40d2-90d6-7a43ec5b43ad",
+      "type": "svg-horizontal-arrow",
+      "x": 514,
+      "y": 199,
       "properties": {
         "_cus_style": {
-          "backgroundColor": "rgba(255, 255, 1, 1)",
+          "backgroundColor": "rgba(255, 255, 255, 1)",
           "borderColor": "rgba(0, 0, 0, 1)",
           "borderType": "solid",
           "borderWidth": 1
         },
         "x": 0,
         "y": 0,
-        "_cus_html": "<p>我是从文件里面来的。<span style=\"color: rgb(247, 89, 171);\">请单击右边已编辑内</span>容。</p>",
+        "height": 100,
+        "width": 100,
+        "_cus_layer": { "name": "水平双箭头" }
+      },
+      "zIndex": 3
+    },
+    {
+      "id": "933f9288-e02d-4558-953f-d8d036ffbc32",
+      "type": "svg-down-arrow",
+      "x": 788.5,
+      "y": 353,
+      "properties": {
+        "_cus_style": {
+          "backgroundColor": "rgba(255, 255, 255, 1)",
+          "borderColor": "rgba(0, 0, 0, 1)",
+          "borderType": "solid",
+          "borderWidth": 1
+        },
+        "x": 0,
+        "y": 0,
+        "height": 446,
+        "width": 463,
+        "_cus_layer": { "name": "下箭头" }
+      },
+      "zIndex": 4
+    },
+    {
+      "id": "371980f4-b472-4ec6-b42e-0de5516ca425",
+      "type": "svg-up-arrow",
+      "x": 377,
+      "y": 281,
+      "properties": {
+        "_cus_style": {
+          "backgroundColor": "rgba(255, 255, 255, 1)",
+          "borderColor": "rgba(0, 0, 0, 1)",
+          "borderType": "solid",
+          "borderWidth": 1
+        },
+        "x": 0,
+        "y": 0,
+        "height": 100,
+        "width": 100,
+        "_cus_layer": { "name": "上箭头" }
+      },
+      "zIndex": 1
+    },
+    {
+      "id": "f2cc99ca-46a7-42f2-b760-f7648611b23c",
+      "type": "svg-up-arrow",
+      "x": 57,
+      "y": 34,
+      "properties": {
+        "_cus_style": {
+          "backgroundColor": "rgba(255, 255, 255, 1)",
+          "borderColor": "rgba(0, 0, 0, 1)",
+          "borderType": "solid",
+          "borderWidth": 1
+        },
+        "x": 0,
+        "y": 0,
+        "height": 100,
+        "width": 100,
+        "_cus_layer": { "name": "上箭头" }
+      },
+      "zIndex": 2
+    },
+    {
+      "id": "9f9cb0b7-7e31-48b0-ba01-2939ed95a457",
+      "type": "cus-vue-rich-text-node",
+      "x": 231,
+      "y": 445,
+      "properties": {
+        "_cus_layer": { "name": "请单击右键已编辑内容。" },
+        "_cus_style": {
+          "backgroundColor": "rgba(255, 255, 255, 1)",
+          "borderColor": "rgba(0, 0, 0, 1)",
+          "borderType": "solid",
+          "borderWidth": 1
+        },
+        "x": 0,
+        "y": 0,
+        "_cus_html": "<p style=\"font-size: 12px\">请单击右键已编辑内容。</p>",
         "height": 80,
         "width": 140
       },
-      "zIndex": 1005
-    },
-    {
-      "id": "16a1bd26-274c-4def-910b-f670bbd3a547",
-      "type": "svg-rect-radius",
-      "x": 780,
-      "y": 300,
-      "properties": {
-        "_cus_style": {
-          "backgroundColor": "rgba(245, 9, 9, 1)",
-          "borderColor": "rgba(0, 0, 0, 1)",
-          "borderType": "solid",
-          "borderWidth": 1
-        },
-        "x": 0,
-        "y": 0,
-        "height": 400,
-        "width": 100
-      },
-      "zIndex": 1003
-    },
-    {
-      "id": "8e390190-23c2-4fd5-8535-08165f5ebee9",
-      "type": "svg-down-arrow",
-      "x": 1121.5,
-      "y": 396.5,
-      "properties": {
-        "_cus_style": {
-          "backgroundColor": "rgba(188, 160, 160, 1)",
-          "borderColor": "rgba(0, 0, 0, 1)",
-          "borderType": "solid",
-          "borderWidth": 1
-        },
-        "x": 0,
-        "y": 0,
-        "height": 359,
-        "width": 291
-      },
-      "zIndex": 1003
-    },
-    {
-      "id": "a4c8f2f7-389b-45a9-9a31-3cdf0908795e",
-      "type": "svg-parallelogram",
-      "x": 388.5,
-      "y": 603,
-      "properties": {
-        "_cus_style": {
-          "backgroundColor": "rgba(237, 2, 2, 1)",
-          "borderColor": "rgba(0, 0, 0, 1)",
-          "borderType": "solid",
-          "borderWidth": 1
-        },
-        "x": 0,
-        "y": 0,
-        "height": 314,
-        "width": 337
-      },
-      "zIndex": 1007
+      "zIndex": 1002
     }
   ],
-  "edges": [
-    {
-      "id": "e933e912-2939-49f3-83f9-f2f05b2c844b",
-      "type": "pro-polyline",
-      "properties": { "arrowType": "full-arrow", "borderWidth": 4 },
-      "sourceNodeId": "16a1bd26-274c-4def-910b-f670bbd3a547",
-      "targetNodeId": "8e390190-23c2-4fd5-8535-08165f5ebee9",
-      "sourceAnchorId": "16a1bd26-274c-4def-910b-f670bbd3a547_2",
-      "targetAnchorId": "8e390190-23c2-4fd5-8535-08165f5ebee9_2",
-      "startPoint": { "x": 780, "y": 500 },
-      "endPoint": { "x": 1121.5, "y": 576 },
-      "zIndex": 1002,
-      "pointsList": [
-        { "x": 780, "y": 500 },
-        { "x": 780, "y": 606 },
-        { "x": 1121.5, "y": 606 },
-        { "x": 1121.5, "y": 576 }
-      ]
-    },
-    {
-      "id": "49e23159-d743-4dca-9eaa-75a73c1efb75",
-      "type": "pro-polyline",
-      "properties": { "arrowType": "full-arrow", "borderWidth": 4 },
-      "sourceNodeId": "16a1bd26-274c-4def-910b-f670bbd3a547",
-      "targetNodeId": "71fbdce4-824f-4647-a0a0-b264c2a602b5",
-      "sourceAnchorId": "16a1bd26-274c-4def-910b-f670bbd3a547_0",
-      "targetAnchorId": "71fbdce4-824f-4647-a0a0-b264c2a602b5_0",
-      "startPoint": { "x": 780, "y": 100 },
-      "endPoint": { "x": 495, "y": 280 },
-      "zIndex": 1004,
-      "pointsList": [
-        { "x": 780, "y": 100 },
-        { "x": 780, "y": 70 },
-        { "x": 495, "y": 70 },
-        { "x": 495, "y": 280 }
-      ]
-    },
-    {
-      "id": "13ba4b2b-5a3a-48a5-953a-dfe3f615747a",
-      "type": "pro-polyline",
-      "properties": { "arrowType": "full-arrow", "borderWidth": 4 },
-      "sourceNodeId": "71fbdce4-824f-4647-a0a0-b264c2a602b5",
-      "targetNodeId": "a4c8f2f7-389b-45a9-9a31-3cdf0908795e",
-      "sourceAnchorId": "71fbdce4-824f-4647-a0a0-b264c2a602b5_2",
-      "targetAnchorId": "a4c8f2f7-389b-45a9-9a31-3cdf0908795e_2",
-      "startPoint": { "x": 495, "y": 360 },
-      "endPoint": { "x": 388.5, "y": 760 },
-      "zIndex": 1006,
-      "pointsList": [
-        { "x": 495, "y": 360 },
-        { "x": 495, "y": 390 },
-        { "x": 587, "y": 390 },
-        { "x": 587, "y": 790 },
-        { "x": 388.5, "y": 790 },
-        { "x": 388.5, "y": 760 }
-      ]
-    },
-    {
-      "id": "354d408f-ddb6-479a-95ae-d3417c30c0a6",
-      "type": "pro-polyline",
-      "properties": { "arrowType": "full-arrow", "borderWidth": 4 },
-      "sourceNodeId": "a4c8f2f7-389b-45a9-9a31-3cdf0908795e",
-      "targetNodeId": "8e390190-23c2-4fd5-8535-08165f5ebee9",
-      "sourceAnchorId": "a4c8f2f7-389b-45a9-9a31-3cdf0908795e_0",
-      "targetAnchorId": "8e390190-23c2-4fd5-8535-08165f5ebee9_0",
-      "startPoint": { "x": 388.5, "y": 446 },
-      "endPoint": { "x": 1121.5, "y": 217 },
-      "zIndex": 1008,
-      "pointsList": [
-        { "x": 388.5, "y": 446 },
-        { "x": 388.5, "y": 32 },
-        { "x": 1121.5, "y": 32 },
-        { "x": 1121.5, "y": 217 }
-      ]
-    }
-  ]
+  "edges": []
 }

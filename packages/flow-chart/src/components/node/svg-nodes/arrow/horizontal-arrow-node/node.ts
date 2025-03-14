@@ -2,7 +2,10 @@
  * 水平双箭头
  */
 
+import type { CustomNodeLayerProperty } from '#/components/types/custom-properties';
+
 import { h } from '@logicflow/core';
+import { merge } from 'es-toolkit/compat';
 
 import { CusRect } from '../../../basic';
 import { getShapeImage } from '../../../utils/shape-image';
@@ -12,6 +15,15 @@ class HorizontalArrowNodeModel extends CusRect.model {
     super.initNodeData(data);
     this.width = 80;
     this.height = 40;
+
+    this.setProperties(
+      merge(
+        {
+          _cus_layer: { name: '水平双箭头' } as CustomNodeLayerProperty,
+        },
+        data.properties,
+      ),
+    );
   }
 }
 

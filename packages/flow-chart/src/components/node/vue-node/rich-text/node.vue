@@ -33,7 +33,8 @@ function initNodeData() {
     merge(
       {
         ...getNodeCustomDefaultProperties(),
-        _cus_html: '<p style="font-size: 12px">请单击右边已编辑内容1。</p>',
+        _cus_html: '<p style="font-size: 12px">请单击右键已编辑内容。</p>',
+        _cus_layer: { name: '请单击右键已编辑内容。' },
         height: 80,
         width: 140,
       },
@@ -57,11 +58,12 @@ function getNodeStyle() {
 }
 
 /** 设置节点html */
-function setNodeHtml(html: string) {
+function setNodeHtml(html: string, setProperties = false) {
   htmlStr.value = html;
-  nodeModel.setProperties({
-    _cus_html: html,
-  });
+  setProperties &&
+    nodeModel.setProperties({
+      _cus_html: html,
+    });
 }
 
 /** 设置右键菜单 */
@@ -78,7 +80,7 @@ function setMenu(model: VueNodeModel) {
         richEditorDialog.open(
           node.properties._cus_html || '',
           (html: string) => {
-            setNodeHtml(html);
+            setNodeHtml(html, true);
           },
         );
       },
@@ -88,8 +90,16 @@ function setMenu(model: VueNodeModel) {
 }
 
 onMounted(() => {
-  graphModel.eventCenter.on(EventType.NODE_PROPERTIES_CHANGE, () => {
-    nodeStyle.value = getNodeStyle();
+  graphModel.eventCenter.on(EventType.NODE_PROPERTIES_CHANGE, (eventData) => {
+    const keys = eventData.keys as string[];
+
+    if (eventData.id === nodeModel.id) {
+      nodeStyle.value = getNodeStyle();
+
+      if (keys.includes('_cus_html')) {
+        setNodeHtml(nodeModel.getProperties()._cus_html || '');
+      }
+    }
   });
 
   nodeModel.setAttributes = function () {

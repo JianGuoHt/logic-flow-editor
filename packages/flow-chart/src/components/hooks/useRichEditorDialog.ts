@@ -8,7 +8,9 @@ export function useRichEditorDialog() {
   const richEditDialog = unref(rootStore?.richEditDialog);
 
   if (!richEditDialog) {
-    throw new Error('logicFlow实例不存在,请确保在logicFlow初始化后使用');
+    throw new Error(
+      'richEditDialog 实例不存在,请确保在 richEditDialog 初始化后使用',
+    );
   }
 
   return richEditDialog;

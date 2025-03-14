@@ -2,7 +2,10 @@
  * 下箭头
  */
 
+import type { CustomNodeLayerProperty } from '#/components/types/custom-properties';
+
 import { h } from '@logicflow/core';
+import { merge } from 'es-toolkit/compat';
 
 import { CusRect } from '../../../basic';
 
@@ -11,6 +14,15 @@ class DownArrowNodeModel extends CusRect.model {
     super.initNodeData(data);
     this.width = 50;
     this.height = 80;
+
+    this.setProperties(
+      merge(
+        {
+          _cus_layer: { name: '下箭头' } as CustomNodeLayerProperty,
+        },
+        data.properties,
+      ),
+    );
   }
 }
 

@@ -5,14 +5,16 @@ import { useLf } from '#/components/hooks/useLf';
 import { getActiveNodeModelType } from '#/components/utils/node';
 
 import { diagramPropertyPanelProvideKey } from '../../help/property-panel-provide';
+import { diagramPropertyStylePanelProvideKey } from '../../help/style-panel-provide';
 
 const lf = useLf();
 
 const injectDiagramPropertyPanel = inject(diagramPropertyPanelProvideKey);
+const injectStylePanel = inject(diagramPropertyStylePanelProvideKey);
 
-const form = injectDiagramPropertyPanel!.form;
+const form = injectStylePanel!.form;
 
-const setNodeProperties = injectDiagramPropertyPanel!.setNodeProperties;
+const setNodeProperties = injectStylePanel!.setNodeProperties;
 
 const activeNode = injectDiagramPropertyPanel!.activeNodes;
 

@@ -2,7 +2,10 @@
  * 菱形
  */
 
+import type { CustomNodeLayerProperty } from '#/components/types/custom-properties';
+
 import { h } from '@logicflow/core';
+import { merge } from 'es-toolkit';
 
 import { CusDiamond } from '../../../basic';
 import { getShapeImage } from '../../../utils/shape-image';
@@ -12,6 +15,15 @@ class DiamondNodeModel extends CusDiamond.model {
     super.initNodeData(data);
     this.rx = 35;
     this.ry = 35;
+
+    this.setProperties(
+      merge(
+        {
+          _cus_layer: { name: '菱形' } as CustomNodeLayerProperty,
+        },
+        data.properties,
+      ),
+    );
   }
 }
 

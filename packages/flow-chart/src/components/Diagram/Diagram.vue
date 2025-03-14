@@ -152,7 +152,7 @@ function initLogicFlow() {
   _lf.render({});
 
   // eslint-disable-next-line no-constant-condition
-  if (false) {
+  if (true) {
     setTimeout(() => {
       _lf.renderRawData(testJson);
     }, 2000);
@@ -311,7 +311,7 @@ provide(lfProvideKey, {
       </div>
     </div>
 
-    <DiagramRichEditorDialog v-if="!!lf" ref="richEditorDialogRef" />
+    <DiagramRichEditorDialog ref="richEditorDialogRef" />
   </div>
 </template>
 

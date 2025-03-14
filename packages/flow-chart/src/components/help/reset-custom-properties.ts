@@ -11,6 +11,7 @@ import { merge } from 'es-toolkit/compat';
  */
 export function getNodeCustomDefaultProperties(): CustomNodeProperty {
   return {
+    _cus_layer: {},
     _cus_style: {
       backgroundColor: 'rgba(255, 255, 255, 1)',
       borderColor: 'rgba(0, 0, 0, 1)',
