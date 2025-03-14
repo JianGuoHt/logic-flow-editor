@@ -70,6 +70,7 @@ function initLogicFlow() {
       size: 5,
       visible: false,
     },
+    history: true,
     overlapMode: OverlapMode.INCREASE,
     plugins: [SelectionSelect, Menu, MiniMap, DynamicGroup],
     pluginsOptions: {
@@ -312,8 +313,9 @@ provide(lfProvideKey, {
       :style="{
         height: `calc(100% - ${projectSetting.toolbar.height}px)`,
         top: `${projectSetting.toolbar.height}px`,
+        width: `calc(100% - ${projectSetting.propertyPanel.width}px)`,
       }"
-      class="fixed left-0 flex w-full flex-1 overflow-hidden"
+      class="fixed left-0 flex flex-1 overflow-hidden"
     >
       <div class="h-full" style="width: 240px">
         <DiagramGraphicElementSidebar @drag-in-node="onDragInNode" />

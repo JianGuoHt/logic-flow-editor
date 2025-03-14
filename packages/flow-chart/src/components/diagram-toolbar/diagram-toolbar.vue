@@ -4,6 +4,7 @@ import DiagramSize from './components/diagram-size.vue';
 import EdgeEndShapeType from './components/edge-end-shape-type.vue';
 import EdgeType from './components/edge-type.vue';
 import FileMore from './components/file-more.vue';
+import History from './components/history.vue';
 import MiniMap from './components/mini-map.vue';
 import SelectionSelectTool from './components/selection-select-tool.vue';
 
@@ -32,6 +33,7 @@ const projectSetting = getProjectSetting();
       <EdgeEndShapeType />
       <MiniMap />
       <DiagramSize />
+      <History />
     </div>
     <div class="flex"></div>
   </div>
