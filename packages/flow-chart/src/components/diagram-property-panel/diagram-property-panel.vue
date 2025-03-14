@@ -107,7 +107,7 @@ provide(diagramPropertyPanelProvideKey, {
       top: `${toolbar.height}px`,
       zIndex: 9,
     }"
-    class="diagram-property-panel is-active fixed right-0 bg-white pl-2"
+    class="font_SourceHanSansCN_Regular diagram-property-panel is-active fixed right-0 bg-white pl-2"
   >
     <el-tabs v-model="activePane" class="h-full">
       <el-tab-pane label="图层" name="layer">

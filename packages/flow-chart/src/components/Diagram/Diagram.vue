@@ -191,6 +191,7 @@ function setLfMenu(lf: LogicFlow) {
         callback: (edge) => {
           lf.deleteEdge(edge.id);
         },
+        className: 'text-danger',
         text: '删除',
       },
     ],
@@ -202,6 +203,7 @@ function setLfMenu(lf: LogicFlow) {
         callback: (node) => {
           lf.deleteNode(node.id);
         },
+        className: 'text-danger',
         text: '删除',
       },
     ],
@@ -261,6 +263,18 @@ function setLfMenu(lf: LogicFlow) {
           lf.clearSelectElements();
         },
         text: '组合',
+      },
+      {
+        callback: (elements) => {
+          elements.nodes.forEach((node: any) => {
+            lf.deleteNode(node.id);
+          });
+          elements.edges.forEach((edge: any) => {
+            lf.deleteEdge(edge.id);
+          });
+        },
+        className: 'text-danger menu-item-divider',
+        text: '删除',
       },
     ],
     type: 'lf:defaultSelectionMenu',

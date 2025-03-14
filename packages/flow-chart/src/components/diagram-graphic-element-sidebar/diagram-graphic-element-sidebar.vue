@@ -31,7 +31,7 @@ function dragInNode(type: string) {
 </script>
 
 <template>
-  <div class="diagram-graphic-element-sidebar">
+  <div class="diagram-graphic-element-sidebar font_SourceHanSansCN_Regular">
     <el-scrollbar style="height: 100%">
       <el-collapse v-model="activeCollapseNames">
         <template v-for="group in registerCustomNodes" :key="group.type">

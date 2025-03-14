@@ -11,7 +11,7 @@ setTimeout(() => {
 </script>
 
 <template>
-  <div class="test-body">
+  <div class="">
     <ElConfigProvider :locale="zhCn">
       <Diagram />
     </ElConfigProvider>

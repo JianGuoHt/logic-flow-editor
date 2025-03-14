@@ -71,12 +71,6 @@ function setMenu(model: VueNodeModel) {
   model.menu = [
     {
       callback: (node) => {
-        graphModel.deleteNode(node.id);
-      },
-      text: '删除',
-    },
-    {
-      callback: (node) => {
         richEditorDialog.open(
           node.properties._cus_html || '',
           (html: string) => {
@@ -85,6 +79,13 @@ function setMenu(model: VueNodeModel) {
         );
       },
       text: '编辑',
+    },
+    {
+      callback: (node) => {
+        graphModel.deleteNode(node.id);
+      },
+      className: 'text-danger menu-item-divider',
+      text: '删除',
     },
   ] as MenuItem[];
 }

@@ -15,7 +15,7 @@ const projectSetting = getProjectSetting();
     :style="{
       height: `${projectSetting.toolbar.height}px`,
     }"
-    class="diagram-toolbar fixed left-0 top-0 flex h-full w-full items-center justify-between gap-4 bg-white"
+    class="diagram-toolbar font_SourceHanSansCN_Regular fixed left-0 top-0 flex h-full w-full items-center justify-between gap-4 bg-white"
     style="
       z-index: 10;
       font-size: 14px;

@@ -1,0 +1,30 @@
+@font-face {
+  font-family: 'SourceHanSansCN_Regular';
+  src: url('./SourceHanSansCN-Regular.otf');
+}
+@font-face {
+  font-family: 'SourceHanSansCN_Normal';
+  src: url('./SourceHanSansCN-Normal.otf');
+}
+@font-face {
+  font-family: 'SourceHanSansCN_Bold';
+  src: url('./SourceHanSansCN-Bold.otf');
+}
+@font-face {
+  font-family: 'SourceHanSansCN_Medium';
+  src: url('./SourceHanSansCN-Medium.otf');
+}
+
+
+.font_SourceHanSansCN_Normal {
+  font-family: 'SourceHanSansCN_Normal';
+}
+.font_SourceHanSansCN_Regular {
+  font-family: 'SourceHanSansCN_Regular';
+}
+.font_SourceHanSansCN_Bold {
+  font-family: 'SourceHanSansCN_Bold';
+}
+.font_SourceHanSansCN_Medium {
+  font-family: 'SourceHanSansCN_Medium';
+}

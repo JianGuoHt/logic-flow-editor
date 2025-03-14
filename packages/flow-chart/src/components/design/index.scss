@@ -1,2 +1,6 @@
 @use './lf-menu';
 @use './lf-mini-map';
+
+.text-danger {
+  color: var(--el-color-danger);
+}
