@@ -13,9 +13,9 @@ catalog:
   '@intlify/core-base': ^10.0.4
   '@intlify/unplugin-vue-i18n': ^5.2.0
   '@jspm/generator': ^2.4.1
-  '@logicflow/core': ^2.0.10
-  '@logicflow/extension': ^2.0.14
-  '@logicflow/vue-node-registry': ^1.0.12
+  '@logicflow/core': ^2.0.11
+  '@logicflow/extension': ^2.0.15
+  '@logicflow/vue-node-registry': ^1.0.13
   '@manypkg/get-packages': ^2.2.2
   '@pnpm/workspace.read-manifest': ^2.2.1
   '@stylistic/stylelint-plugin': ^3.1.1
@@ -40,9 +40,10 @@ catalog:
   cross-env: ^7.0.3
   cssnano: ^7.0.6
   dayjs: ^1.11.13
+  decimal.js: ^10.5.0
   depcheck: ^1.4.7
   dotenv: ^16.4.5
-  element-plus: ^2.9.3
+  element-plus: ^2.9.6
   es-toolkit: ^1.32.0
   eslint: ^9.13.0
   eslint-config-turbo: ^2.2.3
@@ -117,7 +118,7 @@ catalog:
   vue: ^3.5.13
   vue-eslint-parser: ^9.4.3
   vue-tsc: ^2.2.0
-  'decimal.js': ^10.5.0
+  xe-utils: ^3.7.4
 packages:
   - internal/*
   - internal/lint-configs/*

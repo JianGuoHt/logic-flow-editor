@@ -1,10 +1,6 @@
 {
   "folders": [
     {
-      "name": "flow-editor",
-      "path": "apps/flow-editor",
-    },
-    {
       "name": "@clsy/commitlint-config",
       "path": "internal/lint-configs/commitlint-config",
     },

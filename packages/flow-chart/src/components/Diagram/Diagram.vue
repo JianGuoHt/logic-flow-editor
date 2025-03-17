@@ -19,6 +19,8 @@ import {
   SelectionSelect,
 } from '@logicflow/extension';
 import { getTeleport } from '@logicflow/vue-node-registry';
+import { Base64 } from 'js-base64';
+import { unserialize } from 'xe-utils';
 
 import testJson from '#/components/assets/json/test.json';
 
@@ -35,12 +37,14 @@ import { getActiveEdgeType } from '../edge/help';
 import { mittEmitter } from '../events/mitt';
 import { registerCustomElement } from '../node';
 import { rectDynamicGroupNode } from '../node/dynamic-group-node';
-import { registerHtmlNodes } from '../node/html-node';
 import { registerVueNodes } from '../node/vue-node';
 import { lfProvideKey } from '../types/lf-token';
 
 import '@logicflow/core/dist/index.css';
 import '@logicflow/extension/es/index.css';
+
+const hrefQuery = unserialize(window.location.search.slice(1));
+const loading = ref(false);
 
 const projectSetting = getProjectSetting();
 
@@ -53,13 +57,16 @@ const lf = shallowRef<LogicFlow>();
 const TeleportContainer = getTeleport();
 const flowId = ref('');
 
+const isOnlyPreview = ref(hrefQuery.preview === '1');
+const isIframe = ref(hrefQuery.iframe === '1');
+
 /** space 键是否按下 */
 const spaceKeyDown = ref(false);
 
 const registerCustomNodes = ref<RegisterCusNodeGroupOptions[]>([]);
 
 /** 初始化 LogicFlow */
-function initLogicFlow() {
+function initLogicFlow(graphData = {}) {
   const options = {
     allowResize: true,
     allowRotate: true,
@@ -75,6 +82,7 @@ function initLogicFlow() {
       visible: false,
     },
     history: true,
+    isSilentMode: isOnlyPreview.value,
     keyboard: {
       enabled: true,
       shortcuts: [
@@ -196,13 +204,13 @@ function initLogicFlow() {
   registerCustomElement(_lf);
   registerCustomEdge(_lf);
   registerVueNodes(_lf);
-  registerHtmlNodes(_lf);
+  // registerHtmlNodes(_lf);
   setLfMenu(_lf);
 
-  _lf.render({});
+  _lf.render(graphData);
 
   // eslint-disable-next-line no-constant-condition
-  if (true) {
+  if (false) {
     setTimeout(() => {
       _lf.renderRawData(testJson);
     }, 2000);
@@ -259,6 +267,10 @@ function initOnMittRegister() {
  * 设置右键菜单
  */
 function setLfMenu(lf: LogicFlow) {
+  if (isOnlyPreview.value) {
+    return;
+  }
+
   const menu = lf.extension.menu as Menu;
 
   menu.setMenuConfig({
@@ -367,12 +379,61 @@ function onDragInNode(type: string) {
   });
 }
 
+/** 初始化 iframe 模式 */
+function initIframeModel() {
+  if (!isIframe.value) {
+    return;
+  }
+  onIframeMessage();
+
+  let fileUrl = hrefQuery.fileUrl as string;
+  if (!fileUrl) {
+    // eslint-disable-next-line no-alert
+    alert('缺少 fileUrl');
+    return;
+  }
+
+  loading.value = true;
+  fileUrl = decodeURIComponent(fileUrl);
+  fileUrl = Base64.decode(fileUrl);
+
+  fetch(fileUrl)
+    .then((res) => res.text())
+    .then((data) => {
+      initLogicFlow(JSON.parse(data));
+      loading.value = false;
+    })
+    .catch(() => {
+      loading.value = false;
+    });
+}
+
+/** 注册 message 事件 */
+function onIframeMessage() {
+  if (!isIframe.value) {
+    return;
+  }
+  window.addEventListener('message', (event) => {
+    const data = JSON.parse(event.data) as { data: any; key: string };
+
+    if (data.key === 'openJson') {
+      initLogicFlow(data.data);
+    }
+  });
+}
+
 onMounted(() => {
+  initIframeModel();
+
   nextTick(() => {
     initOnMittRegister();
-    initLogicFlow();
+    if (!isIframe.value) {
+      initLogicFlow();
+    }
   });
 });
+
+(window as any).getJsonData = () => lf.value?.getGraphRawData();
 
 provide(lfProvideKey, {
   lf,
@@ -382,19 +443,19 @@ provide(lfProvideKey, {
 </script>
 
 <template>
-  <div class="diagram-main-body h-screen w-screen">
-    <DiagramToolbar v-if="!!lf" />
-    <DiagramPropertyPanel v-if="!!lf" />
+  <div class="diagram-main-body h-screen w-screen bg-white" v-loading="loading">
+    <DiagramToolbar v-if="!isOnlyPreview && !!lf" />
+    <DiagramPropertyPanel v-if="!isOnlyPreview && !!lf" />
 
     <div
       :style="{
-        height: `calc(100% - ${projectSetting.toolbar.height}px)`,
-        top: `${projectSetting.toolbar.height}px`,
-        width: `calc(100% - ${projectSetting.propertyPanel.width}px)`,
+        height: `calc(100% - ${isOnlyPreview ? 0 : projectSetting.toolbar.height}px)`,
+        top: `${isOnlyPreview ? 0 : projectSetting.toolbar.height}px`,
+        width: `calc(100% - ${isOnlyPreview ? 0 : projectSetting.propertyPanel.width}px)`,
       }"
       class="fixed left-0 flex flex-1 overflow-hidden"
     >
-      <div class="h-full" style="width: 240px">
+      <div v-if="!isOnlyPreview" class="h-full" style="width: 240px">
         <DiagramGraphicElementSidebar @drag-in-node="onDragInNode" />
       </div>
 
